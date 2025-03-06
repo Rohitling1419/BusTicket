@@ -26,7 +26,10 @@ class PageController extends Controller
     {
         return view('pages.blog');
     }
-    
+    public function search()
+    {
+        return view('pages.search');
+    }
 
     public function submit(Request $request)
     {

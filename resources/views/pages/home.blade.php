@@ -15,46 +15,21 @@
         </div>
 
         <div class="search-bar mt-4 w-100">
-            <form>
-                <div class="row justify-content-center g-2">
-                    <!-- From Input -->
-                    <div class="col-md-3 col-sm-6">
-                        <div class="input-group">
-                            <span class="input-group-text bg-light">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </span>
-                            <input type="text" class="form-control" placeholder="From" style="height: 2.9rem;" />
-                        </div>
-                    </div>
+        <form action="{{ route('search.buses') }}" method="GET">
+    <label class="block">From</label>
+    <input type="text" name="from" required class="border p-2 rounded mb-2 w-full">
 
-                    <!-- To Input -->
-                    <div class="col-md-3 col-sm-6">
-                        <div class="input-group">
-                            <span class="input-group-text bg-light">
-                                <i class="fas fa-location-arrow"></i>
-                            </span>
-                            <input type="text" class="form-control" placeholder="To" style="height: 2.9rem;" />
-                        </div>
-                    </div>
+    <label class="block">To</label>
+    <input type="text" name="to" required class="border p-2 rounded mb-2 w-full">
 
-                    <!-- Date Input -->
-                    <div class="col-md-3 col-sm-6">
-                        <div class="input-group">
-                            <span class="input-group-text bg-light">
-                                <i class="fas fa-calendar-alt"></i>
-                            </span>
-                            <input type="date" class="form-control" style="height: 2.9rem;" />
-                        </div>
-                    </div>
+    <label class="block">Date</label>
+    <input type="date" name="date" required class="border p-2 rounded mb-2 w-full">
 
-                    <!-- Search Button -->
-                    <div class="col-md-2 col-sm-6">
-                        <button type="submit" class="w-75 btns-search" style="line-height: 1.4rem; border-radius:8px;">
-                            <i class="fas fa-search"></i> Search
-                        </button>
-                    </div>
-                </div>
-            </form>
+   
+
+    <button type="submit" class="bg-blue-500 text-black px-4 py-2 rounded">Search</button>
+</form>
+
         </div>
 
     </div>

@@ -36,11 +36,12 @@
             text-align: center;
         }
     </style>
-    <div class="container" style="margin-top: 2.3rem;">
+
+    <div class="container">
         <div class="row align-items-center">
             <!-- Image Section -->
             <div class="col-md-6">
-                <img src="{{asset('Photos/about.png')}}" alt="About Us Image" class="img-fluid rounded">
+                <img src="{{ asset('Photos/about.png') }}" alt="About Us Image" class="img-fluid rounded">
             </div>
 
             <!-- Text Section -->
@@ -55,30 +56,31 @@
             </div>
         </div>
     </div>
-    <section>
-        <div class="container counter-container">
-            <div class="row justify-content-center">
-                <!-- counter -->
-                <div class="col-md-3 col-sm-6 text-center counter-section">
-                    <i class="fa fa-calendar-check medium-icon" style="color: rgb(147,7,231);"></i> <!-- Changed icon -->
-                    <span class="counter" data-to="4" >0</span>
-                    <p class="counter-title">Years of Experience</p>
-                </div>
-                <!-- counter -->
-                <div class="col-md-3 col-sm-6 text-center counter-section">
-                    <i class="fa fa-users medium-icon" style="color: rgb(147,7,231);"></i> <!-- Changed icon -->
-                    <span class="counter" data-to="1000">0</span>
-                    <p class="counter-title">Happy Clients</p>
-                </div>
-                <!-- counter -->
-                <div class="col-md-3 col-sm-6 text-center counter-section">
-                    <i class="fa fa-handshake medium-icon" style="color: rgb(147,7,231);"></i> <!-- Changed icon -->
-                    <span class="counter" data-to="1200">0</span>
-                    <span class="counter-title">Clients Served</span>
-                </div>
+
+    <div class="container counter-container">
+        <div class="row justify-content-center">
+            <!-- Counter 1 -->
+            <div class="col-md-3 col-sm-6 text-center counter-section">
+                <i class="fa fa-calendar-check medium-icon" style="color: rgb(147,7,231);"></i>
+                <span class="counter" data-to="4">0</span>
+                <p class="counter-title">Years of Experience</p>
+            </div>
+            <!-- Counter 2 -->
+            <div class="col-md-3 col-sm-6 text-center counter-section">
+                <i class="fa fa-users medium-icon" style="color: rgb(147,7,231);"></i>
+                <span class="counter" data-to="1000">0</span>
+                <p class="counter-title">Happy Clients</p>
+            </div>
+            <!-- Counter 3 -->
+            <div class="col-md-3 col-sm-6 text-center counter-section">
+                <i class="fa fa-handshake medium-icon" style="color: rgb(147,7,231);"></i>
+                <span class="counter" data-to="1200">0</span>
+                <p class="counter-title">Clients Served</p> <!-- Changed from <span> to <p> -->
             </div>
         </div>
-    </section>
-</section>
+    </div>
 
+
+
+</section>
 @endsection
