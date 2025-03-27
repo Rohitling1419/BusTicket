@@ -17,10 +17,14 @@ return new class extends Migration
         $table->string('from_location');
         $table->string('to_location');
         $table->date('departure_date');
+        $table->time('departure_time')->nullable();  
+        $table->time('arrival_time')->nullable();    
         $table->integer('available_seats');
+        $table->string('bus_type')->nullable();     
         $table->timestamps();
     });
 }
+
 
 
     /**

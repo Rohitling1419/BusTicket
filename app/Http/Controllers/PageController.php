@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers;  // Use the correct namespace for this controller
 
 use Illuminate\Http\Request;
-use App\Models\Contact;
+use App\Models\Post;  // Ensure that the Post model is imported
+use App\Models\Contact; // Ensure that the Contact model is imported if you're using it
 
-
-class PageController extends Controller
+class PageController extends Controller  // Change `Controllers` to `Controller`
 {
     public function home()
     {
@@ -22,10 +22,16 @@ class PageController extends Controller
     {
         return view('pages.contact');
     }
+
     public function blog()
     {
-        return view('pages.blog');
+        // Fetch all blog posts from the database
+        $posts = Post::all();  // Or you can use pagination, depending on how many posts you have
+
+        // Pass the posts to the view
+        return view('pages.blog', compact('posts'));
     }
+
     public function search()
     {
         return view('pages.search');
@@ -40,8 +46,7 @@ class PageController extends Controller
             'subject' => 'required|string|max:255',
             'message' => 'required|string',
         ]);
-        
-    
+
         // Save the data to the database
         Contact::create([
             'name' => $request->name,
@@ -49,12 +54,8 @@ class PageController extends Controller
             'subject' => $request->subject,
             'message' => $request->message,
         ]);
-        
-    
+
         // Redirect with a success message
         return redirect()->route('contact')->with('success', 'Message sent successfully!');
-
     }
-    
-    
 }

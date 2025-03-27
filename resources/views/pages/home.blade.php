@@ -23,8 +23,7 @@
     <input type="text" name="to" required class="border p-2 rounded mb-2 w-full">
 
     <label class="block">Date</label>
-    <input type="date" name="date" required class="border p-2 rounded mb-2 w-full">
-
+    <input type="date" name="date" required class="border p-2 rounded mb-2 w-full" id="date">    
    
 
     <button type="submit" class="bg-blue-500 text-black px-4 py-2 rounded">Search</button>

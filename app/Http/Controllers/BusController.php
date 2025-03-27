@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class BusController extends Controller
 {
-    // Display all buses
+    // Display all buses with pagination
     public function index()
     {
-        $buses = Bus::all();
+        $buses = Bus::paginate(10);
         return view('admin.buses.index', compact('buses'));
     }
 
@@ -20,48 +20,75 @@ class BusController extends Controller
         return view('admin.buses.create');
     }
 
-    // Store the new bus
+    // Store a new bus
     public function store(Request $request)
     {
-        // Validate the request
         $request->validate([
             'bus_name' => 'required|string|max:255',
             'from_location' => 'required|string|max:255',
             'to_location' => 'required|string|max:255',
             'departure_date' => 'required|date',
+            'departure_time' => 'required|date_format:H:i',
+            'arrival_date' => 'required|date|after_or_equal:departure_date',
+            'arrival_time' => 'required|date_format:H:i|after:departure_time',
             'available_seats' => 'required|integer|min:1',
             'bus_type' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',  // Price validation added here
         ]);
 
-        // Create the bus in the database
-        Bus::create([
-            'bus_name' => $request->bus_name,
-            'from_location' => $request->from_location,
-            'to_location' => $request->to_location,
-            'departure_date' => $request->departure_date,
-            'available_seats' => $request->available_seats,
-            'bus_type' => $request->bus_type,
-        ]);
+        Bus::create($request->all());
 
-        // Redirect to the bus list with a success message
         return redirect()->route('admin.buses.index')->with('success', 'Bus added successfully!');
     }
 
-    // Search for buses
+    // Search for buses based on departure, destination, and date
     public function search(Request $request)
     {
         $request->validate([
-            'from' => 'required|string',
-            'to' => 'required|string',
+            'from' => 'required|string|max:255',
+            'to' => 'required|string|max:255',
             'date' => 'required|date',
         ]);
 
         $buses = Bus::where('from_location', $request->from)
                     ->where('to_location', $request->to)
                     ->where('departure_date', $request->date)
-                    ->get();
+                    ->paginate(10);
 
         return view('pages.search_results', compact('buses'));
+    }
+
+    // New Filter Function for Advanced Filtering
+    public function filter(Request $request)
+    {
+        $request->validate([
+            'bus_type'        => 'nullable|string|max:255',
+            'departure_time'  => 'nullable|date_format:H:i',
+            'arrival_time'    => 'nullable|date_format:H:i',
+            'min_seats'       => 'nullable|integer|min:1',
+            'max_price'       => 'nullable|numeric|min:0',  // Added max price filter
+        ]);
+
+        // Apply filters dynamically
+        $buses = Bus::query()
+                    ->when($request->bus_type, function ($query) use ($request) {
+                        return $query->where('bus_type', $request->bus_type);
+                    })
+                    ->when($request->departure_time, function ($query) use ($request) {
+                        return $query->where('departure_time', '>=', $request->departure_time);
+                    })
+                    ->when($request->arrival_time, function ($query) use ($request) {
+                        return $query->where('arrival_time', '<=', $request->arrival_time);
+                    })
+                    ->when($request->min_seats, function ($query) use ($request) {
+                        return $query->where('available_seats', '>=', $request->min_seats);
+                    })
+                    ->when($request->max_price, function ($query) use ($request) {
+                        return $query->where('price', '<=', $request->max_price);  // Filter buses by price
+                    })
+                    ->paginate(10);
+
+        return view('pages.filtered_results', compact('buses'));
     }
 
     // Show the form to edit an existing bus
@@ -79,24 +106,21 @@ class BusController extends Controller
             'from_location' => 'required|string|max:255',
             'to_location' => 'required|string|max:255',
             'departure_date' => 'required|date',
+            'departure_time' => 'required|date_format:H:i',
+            'arrival_date' => 'required|date|after_or_equal:departure_date',
+            'arrival_time' => 'required|date_format:H:i|after:departure_time',
             'available_seats' => 'required|integer|min:1',
             'bus_type' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',  // Price validation added here
         ]);
 
         $bus = Bus::findOrFail($id);
-        $bus->update([
-            'bus_name' => $request->bus_name,
-            'from_location' => $request->from_location,
-            'to_location' => $request->to_location,
-            'departure_date' => $request->departure_date,
-            'available_seats' => $request->available_seats,
-            'bus_type' => $request->bus_type,
-        ]);
+        $bus->update($request->all());
 
         return redirect()->route('admin.buses.index')->with('success', 'Bus updated successfully!');
     }
 
-    // Destroy a bus (optional route)
+    // Delete a bus
     public function destroy($id)
     {
         $bus = Bus::findOrFail($id);
@@ -104,4 +128,18 @@ class BusController extends Controller
 
         return redirect()->route('admin.buses.index')->with('success', 'Bus deleted successfully!');
     }
+    public function viewSeats($id)
+    {
+        $bus = Bus::findOrFail($id);
+        return view('pages.view_seats', compact('bus'));
+    }
+    public function passengerDetails(Request $request)
+{
+    $bus = Bus::findOrFail($request->bus_id);
+    $selectedSeats = explode(',', $request->selected_seats); // Convert string back to array
+    $boardingPoint = $request->boarding_point;
+    $totalAmount = $request->total_amount;
+
+    return view('pages.passenger_details', compact('bus', 'selectedSeats', 'boardingPoint', 'totalAmount'));
+}
 }

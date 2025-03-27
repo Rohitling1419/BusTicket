@@ -28,6 +28,12 @@
                 <span class="link-text">Buses</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('admin.posts.index')}}">
+                <i class="bi bi-calendar-check"></i>
+                <span class="link-text">Blog</span>
+            </a>
+        </li>
     </ul>
 </aside>
 
