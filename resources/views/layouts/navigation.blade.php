@@ -55,17 +55,9 @@
 
                     @if (auth()->check())
                         <li>
-                            <a class="dropdown-item d-flex align-items-center profile-link" href="#">
+                            <a class="dropdown-item d-flex align-items-center profile-link" href="{{route('admin.profile')}}">
                                 <i class="bi bi-person" style="font-size: 18px; margin-right: 10px;"></i>
                                 <span>My Profile</span>
-                            </a>
-                        </li>
-                        <li><hr class="dropdown-divider" style="margin: 0;"></li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center profile-link" href="#">
-                                <i class="bi bi-gear" style="font-size: 18px; margin-right: 10px;"></i>
-                                <span>Account Settings</span>
                             </a>
                         </li>
                         <li><hr class="dropdown-divider" style="margin: 0;"></li>

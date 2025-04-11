@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <!-- Navbar -->
+    <!-- Navbar -->a
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="{{ route('admin.dashboard') }}">Admin Panel</a>
         <div class="ml-auto">

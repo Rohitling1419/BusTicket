@@ -30,8 +30,8 @@
                         Posted on <strong>{{ $post->created_at->format('F d, Y') }}</strong> by <strong>{{ $post->author }}</strong>
                     </p>
                     <p class="text-muted">{{ Str::limit($post->content, 100) }}</p>
-                    <a href="{{ route('admin.posts.index', $post->id) }}" class="btn btn-primary mt-auto">Read More</a>
-                </div>
+                    <a href="{{ route('blog.show', $post->id) }}" class="btn btn-primary mt-auto">Read More</a>
+                    </div>
             </div>
         </div>
     @endforeach

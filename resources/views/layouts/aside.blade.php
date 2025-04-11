@@ -2,7 +2,7 @@
     <ul class="sidebar-nav list-unstyled" id="sidebar-nav">
         <!-- Dashboard -->
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{route('admin.dashboard')}}">
                 <i class="bi bi-speedometer2"></i>
                 <span class="link-text">Dashboard</span>
             </a>

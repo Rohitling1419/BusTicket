@@ -9,8 +9,11 @@ use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\AdminCityController;
 use App\Http\Controllers\BusController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\NewPasswordController;
 
-//  Public Pages
+// ✅ Public Pages
 Route::controller(PageController::class)->group(function () {
     Route::get('/', 'home')->name('home');
     Route::get('/about', 'about')->name('about');
@@ -18,33 +21,43 @@ Route::controller(PageController::class)->group(function () {
     Route::post('/contactus', 'submit')->name('contact.submit');
     Route::get('/blog', 'blog')->name('blog');
 });
-Route::get('/bus/search', [BusController::class, 'search'])->name('search.buses');
 
+// ✅ Bus Search (Public)
+Route::get('/bus/search', [PageController::class, 'search'])->name('search.buses');
 
-//  User Dashboard (Only Authenticated Users)
+// ✅ Guest Routes (Register, Login, Forgot Password)
+Route::middleware('guest')->group(function () {
+    // Forgot Password
+    Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+
+    // Reset Password
+    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+    Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('password.update');
+});
+
+// ✅ Authenticated and Verified Users Only
 Route::middleware(['auth', 'verified'])->group(function () {
+    // Dashboard
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
-    // Profile Routes (Authenticated Users Only)
+    // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    //  Bus Search and Filters (Public)
-Route::get('/buses/filter', [BusController::class, 'filter'])->name('bus.filter');
-
-//  Bus Seat Viewing
-Route::get('/view-seats/{id}', [BusController::class, 'viewSeats'])->name('view.seats');
-Route::get('/passenger-details', [BusController::class, 'passengerDetails'])->name('passenger.details');
+    // Bus Filtering and Seat Viewing
+    Route::get('/buses/filter', [BusController::class, 'filter'])->name('bus.filter');
+    Route::get('/view-seats/{id}', [BusController::class, 'viewSeats'])->name('view.seats');
+    Route::get('/passenger-details', [BusController::class, 'passengerDetails'])->name('passenger.details');
 });
 
-require __DIR__ . '/auth.php';
-
-//  Admin Routes (Protected by Admin Middleware)
+// ✅ Admin Routes (Requires Auth and Admin Middleware)
 Route::middleware(['auth', 'Admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    // Admin Dashboard and Profile
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/profile', [AdminProfileController::class, 'edit'])->name('admin.profile');
     Route::put('/profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
 
@@ -69,20 +82,21 @@ Route::middleware(['auth', 'Admin'])->prefix('admin')->group(function () {
     });
 });
 
-//  Admin Authentication Routes
-Route::prefix('admin')->group(function () {
-    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('admin.login');
-    Route::post('/login', [LoginController::class, 'login']);
-    Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout');
+// ✅ Admin Login Routes
+Route::get('/admin/login', [LoginController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [LoginController::class, 'login']);
+Route::post('/admin/logout', [LoginController::class, 'logout'])->name('admin.logout');
+
+// ✅ Post Management (Admin)
+Route::middleware(['auth', 'Admin'])->group(function () {
+    Route::get('/posts', [PostController::class, 'index'])->name('admin.posts.index');
+    Route::get('/posts/create', [PostController::class, 'create'])->name('admin.posts.create');
+    Route::post('/posts', [PostController::class, 'store'])->name('admin.posts.store');
+    Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('admin.posts.edit');
+    Route::put('/posts/{id}', [PostController::class, 'update'])->name('admin.posts.update');
+    Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('admin.posts.destroy');
 });
 
-
-
-use App\Http\Controllers\PostController;
-
-Route::get('/posts', [PostController::class, 'index'])->name('admin.posts.index');
-Route::get('/posts/create', [PostController::class, 'create'])->name('admin.posts.create');
-Route::post('/posts', [PostController::class, 'store'])->name('admin.posts.store');
-Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('admin.posts.edit');
-Route::put('/posts/{id}', [PostController::class, 'update'])->name('admin.posts.update');
-Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('admin.posts.destroy');
+// ✅ Auth Routes from Laravel Breeze (Register, Login, Email Verification)
+require __DIR__ . '/auth.php';
+Route::get('/blog/{id}', [PageController::class, 'showBlog'])->name('blog.show');

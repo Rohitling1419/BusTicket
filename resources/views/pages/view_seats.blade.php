@@ -226,8 +226,7 @@
                             <option value="">Select boarding point</option>
                             <option value="Main Bus Terminal">Kalanki</option>
                             <option value="City Center">Naya Bus Park</option>
-                            <option value="Airport">Naya Thimi</option>
-                            <option value="Railway Station">Satdobato </option>
+                        
                         </select>
                     </div>
 
@@ -272,173 +271,109 @@
 </div>
 
 <style>
-:root {
-    --primary-color: #4361ee;
-    --primary-light: #eef2ff;
-    --secondary-color: #3f37c9;
-    --success-color: #4cc9f0;
-    --warning-color: #f72585;
-    --danger-color: #ff4d6d;
-    --light-color: #f8f9fa;
-    --dark-color: #212529;
-    --available-color: #4ade80;
-    --booked-color: #f87171;
-    --reserved-color: #facc15;
-    --selected-color: #60a5fa;
-}
-
-.journey-line {
-    height: 2px;
-    background-color: #e9ecef;
-    width: 60px;
-}
-
-/* Seat Layout Styling */
-.bus-layout {
-    background-color: #f8f9fa;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    width: 80%;
-}
-
-.driver-section {
-    border-bottom: 2px solid #dee2e6;
-    padding-bottom: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.driver-icon {
-    background-color: #e9ecef;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.steering-wheel {
-    width: 40px;
-    height: 40px;
-    border: 2px solid #dee2e6;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.entry-door {
-    width: 40px;
-    height: 40px;
-    background-color: #e9ecef;
-    border-radius: 0.25rem;
-    position: relative;
-}
-
-.door-indicator {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 20px;
-    height: 2px;
-    background-color: #adb5bd;
-}
-
-.seat {
-    width: 100%;
-    aspect-ratio: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0.25rem;
-    font-weight: 600;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    user-select: none;
-}
-
-.seat.available {
-    background-color: var(--available-color);
-    color: #fff;
-}
-
-.seat.booked {
-    background-color: var(--booked-color);
-    color: #fff;
-    cursor: not-allowed;
-    opacity: 0.8;
-}
-
-.seat.reserved {
-    background-color: var(--reserved-color);
-    color: #212529;
-    cursor: not-allowed;
-}
-
-.seat.selected {
-    background-color: var(--selected-color);
-    color: #fff;
-    transform: scale(0.95);
-}
-
-.seat-indicator {
-    width: 16px;
-    height: 16px;
-    border-radius: 4px;
-}
-
-.seat-indicator.available {
-    background-color: var(--available-color);
-}
-
-.seat-indicator.booked {
-    background-color: var(--booked-color);
-}
-
-.seat-indicator.reserved {
-    background-color: var(--reserved-color);
-}
-
-.seat-indicator.selected {
-    background-color: var(--selected-color);
-}
-
-/* Responsive adjustments */
-@media (max-width: 992px) {
-    .sticky-lg-top {
-        position: relative !important;
-        top: 0 !important;
-    }
-}
-
-@media (max-width: 768px) {
-    .seat-info {
-        flex-wrap: wrap;
-        gap: 0.5rem !important;
-    }
-   
-    .card-header {
-        flex-direction: column;
-        align-items: flex-start !important;
-    }
-   
-    .seat-info {
-        margin-top: 0.5rem;
-    }
-}
-
-@media (max-width: 576px) {
     .bus-layout {
-        padding: 1rem;
+        max-width: 100%;
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
-   
+
+    .seats {
+        display: grid;
+        grid-template-columns: repeat(5, 60px); /* 2 seats, aisle gap, 2 seats */
+        gap: 15px;
+        justify-content: center;
+        position: relative;
+    }
+
+    .seats::before {
+        content: '';
+        grid-column: 3;
+    }
+
     .seat {
-        font-size: 0.7rem;
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        border-radius: 10px;
+        font-weight: bold;
+        background-color: #f1f1f1;
+        color: #333;
+        transition: 0.3s;
+        cursor: pointer;
+        user-select: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-}
+
+    .seat:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .seat.available {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .seat.selected {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .seat.booked {
+        background-color: #6c757d;
+        color: white;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    .seat.reserved {
+        background-color: #ffc107;
+        color: #212529;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    .seat-legend {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 25px;
+        font-size: 14px;
+        flex-wrap: wrap;
+    }
+
+    .seat-legend div {
+        display: flex;
+        align-items: center;
+        margin: 5px 10px;
+    }
+
+    .seat-legend .seat {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+        font-size: 0;
+        box-shadow: none;
+        transition: none;
+        transform: none;
+    }
+
+    @media (max-width: 768px) {
+        .seats {
+            grid-template-columns: repeat(5, 50px);
+            gap: 10px;
+        }
+
+        .seat {
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+        }
+    }
 </style>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
