@@ -14,4 +14,9 @@ class Bus extends Model
         'available_seats', 'bus_type', 'arrival_date','price'
     ];    
     
+    public function seats()
+{
+    return $this->hasMany(Seat::class);
+}
+
 }

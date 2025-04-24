@@ -93,21 +93,4 @@ class BusController extends Controller
         return redirect()->route('admin.buses.index')->with('success', 'Bus deleted successfully!');
     }
 
-    // View available seats for a specific bus
-    public function viewSeats($id)
-    {
-        $bus = Bus::findOrFail($id);
-        return view('pages.view_seats', compact('bus'));
-    }
-
-    // Handle passenger details and booking summary
-    public function passengerDetails(Request $request)
-    {
-        $bus = Bus::findOrFail($request->bus_id);
-        $selectedSeats = explode(',', $request->selected_seats); // Convert string back to array
-        $boardingPoint = $request->boarding_point;
-        $totalAmount = $request->total_amount;
-
-        return view('pages.passenger_details', compact('bus', 'selectedSeats', 'boardingPoint', 'totalAmount'));
-    }
 }

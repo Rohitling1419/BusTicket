@@ -56,7 +56,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Available Seats</label>
+                <label class="form-label">Total Seats</label>
                 <input type="number" name="available_seats" class="form-control" 
                     value="{{ old('available_seats') }}" required>
             </div>

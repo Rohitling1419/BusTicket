@@ -15,4 +15,3 @@ class Post extends Model
         'image_path',
     ];
 }
-

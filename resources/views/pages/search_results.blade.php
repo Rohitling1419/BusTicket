@@ -1,54 +1,59 @@
 @extends('frontend.Master')
 
 @section('content')
-<div class="container py-4" style="margin-top: 3rem;">
+
+<div class="container-fluid py-4" style="margin-top: 4rem;">
     <!-- Hero Section with Search -->
     <div class="search-container rounded-4 mb-4 p-4">
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <h2 class="text-center mb-4 text-white">Find Your Perfect Journey</h2>
-                <div class="search-card bg-white p-4 rounded-4 shadow">
-                    <form action="{{ route('search.buses') }}" method="GET">
-                        <div class="row g-3">
-                            <div class="col-md-6 col-lg-3">
-                                <label class="form-label small fw-bold">From</label>
-                                <div class="input-group input-group-lg">
-                                    <span class="input-group-text bg-transparent border-end-0">
-                                        <i class="bi bi-geo-alt-fill text-primary"></i>
-                                    </span>
-                                    <input type="text" name="from" class="form-control border-start-0"
-                                        placeholder="Departure city" value="{{ request('from') }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-3">
-                                <label class="form-label small fw-bold">To</label>
-                                <div class="input-group input-group-lg">
-                                    <span class="input-group-text bg-transparent border-end-0">
-                                        <i class="bi bi-geo-fill text-primary"></i>
-                                    </span>
-                                    <input type="text" name="to" class="form-control border-start-0"
-                                        placeholder="Destination city" value="{{ request('to') }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-3">
-                                <label class="form-label small fw-bold">Travel Date</label>
-                                <div class="input-group input-group-lg">
-                                    <span class="input-group-text bg-transparent border-end-0">
-                                        <i class="bi bi-calendar-date-fill text-primary"></i>
-                                    </span>
-                                    <input type="date" name="date" class="form-control border-start-0"
-                                        value="{{ request('date') }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-3">
-                                <label class="form-label small fw-bold">&nbsp;</label>
-                                <button class="btn btn-primary btn-lg w-100 d-flex align-items-center justify-content-center" type="submit">
-                                    <i class="bi bi-search me-2"></i>Find Buses
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                <div class="container my-5">
+    <div class="card shadow rounded-4 p-4">
+        <h4 class="mb-4 text-center">Search for Buses</h4>
+        <form action="{{ route('search.buses') }}" method="GET">
+            <div class="row g-3">
+                <!-- From -->
+                <div class="col-md-4">
+                    <label for="from" class="form-label">From</label>
+                    <select name="from" id="from" class="form-select" required>
+                        <option value="" disabled selected>Select departure city</option>
+                        @foreach($cities as $city)
+                            <option value="{{ $city }}" {{ (old('from', $from) == $city) ? 'selected' : '' }}>{{ $city }}</option>
+                        @endforeach
+                    </select>
                 </div>
+
+                <!-- To -->
+                <div class="col-md-4">
+                    <label for="to" class="form-label">To</label>
+                    <select name="to" id="to" class="form-select" required>
+                        <option value="" disabled selected>Select destination city</option>
+                        @foreach($cities as $city)
+                            <option value="{{ $city }}" {{ (old('to', $to) == $city) ? 'selected' : '' }}>{{ $city }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Date -->
+                <div class="col-md-4">
+                    <label for="date" class="form-label">Date</label>
+                    <input type="date" name="date" id="date" class="form-control" value="{{ old('date', $date) }}" required>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill shadow-sm">
+                    <i class="bi bi-search me-2"></i>Find Buses
+                </button>
+            </div>
+        </form>
+    </div>
+
+
+                </div>
+
             </div>
         </div>
     </div>
@@ -58,7 +63,7 @@
         <div class="col-lg-3">
             <div class="filter-card sticky-lg-top" style="top: 20px;">
                 <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-                    <div class="card-header bg-primary text-white border-0">
+                    <div class="card-header border-0">
                         <h5 class="mb-0"><i class="bi bi-funnel-fill me-2"></i>Filter Results</h5>
                     </div>
                     <div class="card-body p-4">
@@ -67,7 +72,7 @@
                             <input type="hidden" name="from" value="{{ request('from') }}">
                             <input type="hidden" name="to" value="{{ request('to') }}">
                             <input type="hidden" name="date" value="{{ request('date') }}">
-                            
+
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Bus Type</label>
                                 <div class="d-flex flex-wrap gap-2">
@@ -94,7 +99,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100 d-flex align-items-center justify-content-center">
+                            <button type="submit" class="btn btn-primary w-100 d-flex align-items-center justify-content-center filter-btn">
                                 <i class="bi bi-filter-square-fill me-2"></i>Apply Filters
                             </button>
                         </form>
@@ -107,7 +112,7 @@
         <div class="col-lg-9">
             <!-- Results Summary -->
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="mb-0">
+                <h5 class="mb-0 route-title">
                     @if(request('from') && request('to'))
                     <span class="text-primary">{{ request('from') }}</span> to
                     <span class="text-primary">{{ request('to') }}</span>
@@ -115,7 +120,7 @@
                     Available Buses
                     @endif
                 </h5>
-                <div class="text-muted small">
+                <div class="text-muted small results-count">
                     {{ $buses->count() }} {{ Str::plural('result', $buses->count()) }} found
                 </div>
             </div>
@@ -150,7 +155,7 @@
                             <div class="p-4">
                                 <div class="d-flex align-items-center mb-3">
                                     <div class="bus-icon me-3">
-                                        <i class="bi bi-bus-front text-primary" style="font-size: 2rem;"></i>
+                                        <i class="bi bi-bus-front"></i>
                                     </div>
                                     <div>
                                         <h5 class="fw-bold mb-0">{{ $bus->bus_name }}</h5>
@@ -194,18 +199,16 @@
                                     </div>
                                 </div>
 
-
                             </div>
                         </div>
 
                         <!-- Price & Booking Section -->
-                        <div class="col-lg-4 bg-light">
-                            <div class="h-100 p-4 d-flex flex-column justify-content-between">
+                        <div class="col-lg-4">
+                            <div class="h-100 p-4 d-flex flex-column justify-content-between price-section">
                                 <div>
                                     <div class="text-center mb-3">
                                         <div class="text-muted small">Price Per Seat</div>
-                                        <div class="price fs-3 fw-bold text-primary">NPR {{ $bus->price }}</div>
-
+                                        <div class="price fs-3 fw-bold">NPR {{ $bus->price }}</div>
                                     </div>
 
                                     <div class="text-center mb-3">
@@ -213,13 +216,13 @@
                                                     {{ $bus->available_seats > 10 ? 'text-success' :
                                                       ($bus->available_seats > 5 ? 'text-warning' : 'text-danger') }}">
                                             <i class="bi bi-person-fill me-1"></i>
-                                            <span class="fw-bold">{{ $bus->available_seats }}</span> Seats Available
+                                            <span class="fw-bold">{{ $bus->available_seats }}</span> Total Seats 
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="mt-auto">
-                                    <a href="{{ route('view.seats', $bus->id) }}" class="btn btn-primary btn-lg w-100 mb-2 d-flex align-items-center justify-content-center">
+                                    <a href="{{ route('view.seats', $bus->id) }}" class="btn btn-lg w-100 mb-2 d-flex align-items-center justify-content-center select-seat-btn">
                                         <i class="bi bi-grid-3x3-gap me-2"></i>Select Seats
                                     </a>
                                 </div>
@@ -256,24 +259,100 @@
 <style>
     /* Enhanced Custom CSS for better UI */
     :root {
-        --primary-color: #4361ee;
-        --primary-light: #eef2ff;
-        --secondary-color: #3f37c9;
-        --success-color: #4cc9f0;
-        --warning-color: #f72585;
-        --danger-color: #ff4d6d;
-        --light-color: #f8f9fa;
-        --dark-color: #212529;
+        --primary-color: #2c3e50;
+        --primary-dark: #994bb7;
+        --primary-light: #dbeafe;
+        --secondary-color: #0ea5e9;
+        --secondary-light: #e0f2fe;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --danger-color: #ef4444;
+        --light-color: #f8fafc;
+        --dark-color: #1e293b;
+        --gray-100: #f1f5f9;
+        --gray-200: #e2e8f0;
+        --gray-300: #cbd5e1;
+        --gray-400: #94a3b8;
+        --gray-500: #64748b;
+        --gray-600: #475569;
+        --gray-700: #334155;
+        --gray-800: #1e293b;
+        --gray-900: #0f172a;
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        --transition-fast: all 0.2s ease;
+        --transition: all 0.3s ease;
+        --transition-slow: all 0.5s ease;
     }
 
     body {
-        font-family: 'Poppins', sans-serif;
-        background-color: #f8f9fa;
+        font-family: 'Inter', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: var(--light-color);
+        color: var(--gray-700);
+        line-height: 1.6;
     }
 
+    /* Enhanced Search Container */
     .search-container {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        padding: 2rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        padding: 2.5rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .search-container::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+        animation: pulse 15s infinite linear;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+            opacity: 0.3;
+        }
+
+        50% {
+            transform: scale(1.1);
+            opacity: 0.5;
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 0.3;
+        }
+    }
+
+    .search-container h2 {
+        font-weight: 800;
+        font-size: 2.25rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .search-container h2::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background-color: white;
+        border-radius: 3px;
     }
 
     .rounded-4 {
@@ -282,55 +361,176 @@
 
     .search-card {
         border-radius: 1rem;
+        box-shadow: var(--shadow-xl);
+        transition: var(--transition);
+        transform: translateY(0);
+    }
+
+    .search-card:hover {
+        transform: translateY(-5px);
     }
 
     .form-control,
-    .input-group-text,
-    .btn {
-        border-radius: 0.5rem;
+    .input-group-text {
+        border-radius: 0.75rem;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        border: 1px solid var(--gray-200);
+        transition: var(--transition-fast);
     }
 
     .form-control:focus {
-        box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.25);
         border-color: var(--primary-color);
+    }
+
+    .input-group-text {
+        color: var(--primary-color);
+    }
+
+    .form-label {
+        color: var(--gray-700);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    /* Enhanced Buttons */
+    .btn {
+        border-radius: 0.75rem;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: var(--transition);
+    }
+
+    .btn:hover::after {
+        left: 100%;
     }
 
     .btn-primary {
-        background-color: var(--primary-color);
-        border-color: var(--primary-color);
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        border: none;
+        box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
     }
 
     .btn-primary:hover {
-        background-color: var(--secondary-color);
-        border-color: var(--secondary-color);
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
     }
 
     .btn-outline-primary {
         color: var(--primary-color);
-        border-color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+        background: transparent;
     }
 
     .btn-outline-primary:hover {
         background-color: var(--primary-color);
-        border-color: var(--primary-color);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
     }
 
-    .text-primary {
-        color: var(--primary-color) !important;
+    .search-btn {
+        background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        font-size: 1.1rem;
     }
 
-    .bg-primary {
-        background-color: var(--primary-color) !important;
+    .search-btn:hover {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     }
 
+    .filter-btn {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    }
+
+    .select-seat-btn {
+        background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        color: white;
+        font-weight: 600;
+        box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2);
+    }
+
+    .select-seat-btn:hover {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(14, 165, 233, 0.3);
+    }
+
+    /* Enhanced Cards */
     .card {
+        border: none;
+        border-radius: 1rem;
+        overflow: hidden;
+        transition: var(--transition);
+        box-shadow: var(--shadow);
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: white;
+        font-weight: 600;
+        padding: 1.25rem 1.5rem;
+    }
+
+    .bus-card {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 1rem;
         overflow: hidden;
     }
 
     .bus-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+        box-shadow: var(--shadow-lg) !important;
+    }
+
+    /* Enhanced Bus Info */
+    .bus-icon {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--primary-light);
+        border-radius: 50%;
+        color: var(--primary-color);
+    }
+
+    .bus-icon i {
+        font-size: 2rem;
+    }
+
+    .route-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--gray-800);
+    }
+
+    .results-count {
+        background: var(--gray-100);
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        font-weight: 500;
+    }
+
+    /* Enhanced Timeline */
+    .journey-timeline {
+        padding: 2rem 0;
+        position: relative;
     }
 
     .timeline-line {
@@ -338,123 +538,354 @@
         top: 50%;
         left: 10%;
         right: 10%;
-        height: 2px;
-        background: #e9ecef;
+        height: 3px;
+        background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
         z-index: 1;
+        border-radius: 3px;
     }
 
     .timeline-point {
-        width: 16px;
-        height: 16px;
+        width: 20px;
+        height: 20px;
         border-radius: 50%;
         background: var(--primary-color);
-        margin: 0 auto 10px;
+        border: 3px solid white;
+        box-shadow: 0 0 0 3px var(--primary-light);
+        margin: 0 auto 12px;
         position: relative;
         z-index: 2;
+        transition: var(--transition);
     }
 
     .timeline-point.start {
         margin-left: 0;
+        background: var(--primary-color);
     }
 
     .timeline-point.end {
         margin-right: 0;
         margin-left: auto;
+        background: var(--secondary-color);
+    }
+
+    .bus-card:hover .timeline-point {
+        transform: scale(1.2);
     }
 
     .time-label {
-        font-size: 0.7rem;
-        font-weight: 600;
-        color: #6c757d;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--gray-500);
+        letter-spacing: 0.05em;
         margin-bottom: 0.25rem;
     }
 
     .location {
-        font-size: 0.9rem;
-        color: #6c757d;
+        font-size: 0.95rem;
+        color: var(--gray-600);
+        font-weight: 500;
     }
 
     .duration-badge {
-        background-color: var(--primary-light);
-        color: var(--primary-color);
-        padding: 0.5rem 1rem;
+        background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
+        color: var(--primary-dark);
+        padding: 0.6rem 1.2rem;
         border-radius: 2rem;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         font-weight: 600;
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
     }
 
+    .bus-card:hover .duration-badge {
+        transform: scale(1.05);
+        box-shadow: var(--shadow);
+    }
+
+    /* Enhanced Price Section */
+    .price-section {
+        background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
+        position: relative;
+        overflow: hidden;
+    }
+
+    .price-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%232563eb' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        opacity: 0.5;
+    }
+
+    .price {
+        font-size: 2.5rem !important;
+        font-weight: 800 !important;
+        color: var(--primary-dark);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        line-height: 1.2;
+        display: inline-block;
+        position: relative;
+    }
+
+    .price::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 2px;
+        background: var(--primary-color);
+        border-radius: 2px;
+    }
+
+    .seat-availability {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        background: rgba(255, 255, 255, 0.5);
+        display: inline-block;
+    }
+
+    /* Enhanced Amenities */
     .amenity-badge {
-        background-color: #f8f9fa;
-        padding: 0.25rem 0.75rem;
+        background-color: var(--gray-100);
+        padding: 0.4rem 0.8rem;
         border-radius: 2rem;
         font-size: 0.8rem;
-        color: #6c757d;
+        color: var(--gray-700);
+        font-weight: 500;
+        transition: var(--transition-fast);
+        border: 1px solid var(--gray-200);
+    }
+
+    .amenity-badge:hover {
+        background-color: var(--primary-light);
+        color: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+
+    .amenity-badge i {
+        color: var(--primary-color);
+    }
+
+    /* Enhanced Filter Section */
+    .filter-card {
+        transition: var(--transition);
+    }
+
+    .custom-radio .form-check-input {
+        width: 1.2rem;
+        height: 1.2rem;
+        margin-top: 0.15rem;
+        border: 2px solid var(--gray-300);
+        transition: var(--transition-fast);
     }
 
     .custom-radio .form-check-input:checked {
         background-color: var(--primary-color);
         border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px var(--primary-light);
     }
 
+    .custom-radio .form-check-label {
+        font-size: 0.95rem;
+        color: var(--gray-700);
+        padding-left: 0.25rem;
+        transition: var(--transition-fast);
+    }
+
+    .custom-radio:hover .form-check-label {
+        color: var(--primary-color);
+    }
+
+    /* Enhanced Pagination */
+    .pagination {
+        gap: 0.25rem;
+    }
+
+    .page-link {
+        border: none;
+        padding: 0.5rem 0.75rem;
+        color: var(--gray-700);
+        border-radius: 0.5rem;
+        transition: var(--transition-fast);
+    }
+
+    .page-link:hover {
+        background-color: var(--primary-light);
+        color: var(--primary-color);
+    }
+
+    .page-item.active .page-link {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .page-item.disabled .page-link {
+        color: var(--gray-400);
+        background-color: transparent;
+    }
+
+    /* Empty State */
     .empty-state {
-        min-height: 300px;
+        min-height: 350px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .sticky-lg-top {
-        top: 20px;
+    .empty-state i {
+        color: var(--gray-300);
+        margin-bottom: 1rem;
     }
 
-    /* Responsive adjustments */
-    @media (max-width: 992px) {
+    /* Responsive Adjustments */
+    @media (max-width: 1199px) {
+        .search-container h2 {
+            font-size: 2rem;
+        }
+
+        .price {
+            font-size: 2.2rem !important;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .search-container {
+            padding: 2rem;
+        }
+
+        .search-container h2 {
+            font-size: 1.75rem;
+        }
+
         .sticky-lg-top {
             position: relative !important;
             top: 0 !important;
+            margin-bottom: 1.5rem;
         }
 
         .journey-timeline {
-            padding: 1rem 0;
+            padding: 1.5rem 0;
         }
 
         .timeline-line {
             left: 5%;
             right: 5%;
         }
+
+        .price {
+            font-size: 2rem !important;
+        }
+
+        .journey-timeline .fw-bold {
+            font-size: 1.5rem !important;
+        }
     }
 
     @media (max-width: 768px) {
         .search-container {
-            padding: 1rem;
+            padding: 1.5rem;
+        }
+
+        .search-container h2 {
+            font-size: 1.5rem;
         }
 
         .search-card {
-            padding: 1rem !important;
+            padding: 1.25rem !important;
         }
 
         .bus-card .card-body {
-            padding: 1rem !important;
+            padding: 1.25rem !important;
         }
 
         .price {
-            font-size: 1.5rem !important;
+            font-size: 1.75rem !important;
         }
 
         .journey-timeline .fw-bold {
             font-size: 1.25rem !important;
         }
-    }
 
-    @media (max-width: 576px) {
-        .amenity-badge {
-            font-size: 0.7rem;
-            padding: 0.2rem 0.5rem;
+        .bus-icon {
+            width: 50px;
+            height: 50px;
+        }
+
+        .bus-icon i {
+            font-size: 1.5rem;
         }
 
         .timeline-point {
-            width: 12px;
-            height: 12px;
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .search-container {
+            padding: 1.25rem;
+        }
+
+        .search-container h2 {
+            font-size: 1.35rem;
+        }
+
+        .amenity-badge {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.6rem;
+        }
+
+        .timeline-point {
+            width: 14px;
+            height: 14px;
+        }
+
+        .journey-timeline .fw-bold {
+            font-size: 1.1rem !important;
+        }
+
+        .duration-badge {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        .time-label {
+            font-size: 0.7rem;
+        }
+
+        .location {
+            font-size: 0.85rem;
         }
     }
 </style>
 
+<script>
+    // Auto-submit filter form when radio buttons change
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterRadios = document.querySelectorAll('.filter-radio');
+        filterRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.getElementById('filterForm').submit();
+            });
+        });
 
+        // Set minimum date for date picker to today
+        const dateInput = document.querySelector('input[type="date"]');
+        if (dateInput) {
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.min = today;
+
+            // If no date is selected, default to today
+            if (!dateInput.value) {
+                dateInput.value = today;
+            }
+        }
+    });
+</script>
 @endsection

@@ -29,7 +29,7 @@
                     <th>Departure Time</th>
                     <th>Arrival Date</th>
                     <th>Arrival Time</th>
-                    <th>Available Seats</th>
+                    <th>Total Seats</th>
                     <th>Bus Type</th>
                     <th>Price</th>
                     <th>Actions</th>

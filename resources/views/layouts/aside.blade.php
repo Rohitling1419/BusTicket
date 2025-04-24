@@ -15,13 +15,6 @@
             </a>
         </li>
 
-        <!-- Bookings -->
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="bi bi-calendar-check"></i>
-                <span class="link-text">Bookings</span>
-            </a>
-        </li>
         <li class="nav-item">
             <a class="nav-link" href="{{route('admin.buses.index')}}">
                 <i class="bi bi-calendar-check"></i>
@@ -32,6 +25,13 @@
             <a class="nav-link" href="{{route('admin.posts.index')}}">
                 <i class="bi bi-calendar-check"></i>
                 <span class="link-text">Blog</span>
+            </a>
+        </li>
+              <!-- Booking History -->
+              <li class="nav-item">
+            <a class="nav-link" href="{{route('bookingHistory')}}">
+                <i class="bi bi-clock-history"></i>
+                <span class="link-text">Booking History</span>
             </a>
         </li>
     </ul>

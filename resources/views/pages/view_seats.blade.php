@@ -2,481 +2,490 @@
 
 @section('content')
 <div class="container py-4" style="margin-top: 3rem;">
-    
-
-    <div class="row g-4">
-        <!-- Bus Details Summary -->
-        <div class="col-12 mb-4">
-            <div class="card border-0 shadow-sm rounded-4">
-                <div class="card-body p-4">
-                    <div class="row align-items-center">
-                        <div class="col-md-8">
-                            <h5 class="fw-bold mb-1">{{ $bus->bus_name }}</h5>
-                            <div class="d-flex flex-wrap gap-3 mb-2">
-                                <div class="text-muted small">
-                                    <i class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($bus->departure_date)->format('D, M d, Y') }}
-                                </div>
-                                <div class="text-muted small">
-                                    <i class="bi bi-clock me-1"></i>{{ \Carbon\Carbon::parse($bus->departure_time)->format('h:i A') }}
-                                </div>
-                                <div class="text-muted small">
-                                    <span class="badge rounded-pill {{ $bus->bus_type == 'AC' ? 'bg-info' : ($bus->bus_type == 'Tourist' ? 'bg-success' : 'bg-secondary') }}">
-                                        {{ $bus->bus_type }}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="me-3">
-                                    <div class="fw-bold">{{ $bus->from_location }}</div>
-                                    <div class="text-muted small">{{ \Carbon\Carbon::parse($bus->departure_time)->format('h:i A') }}</div>
-                                </div>
-                                <div class="journey-line position-relative mx-3">
-                                    <i class="bi bi-circle-fill text-primary position-absolute start-0 translate-middle-y" style="font-size: 8px; top: 50%;"></i>
-                                    <i class="bi bi-circle-fill text-primary position-absolute end-0 translate-middle-y" style="font-size: 8px; top: 50%;"></i>
-                                </div>
-                                <div>
-                                    <div class="fw-bold">{{ $bus->to_location }}</div>
-                                    <div class="text-muted small">{{ \Carbon\Carbon::parse($bus->arrival_time)->format('h:i A') }}</div>
+    <form action="{{ route('booking.submit') }}" method="POST" id="seatBookingForm">
+        @csrf
+        <input type="hidden" name="bus_id" value="{{ $bus->id }}">
+        <div class="row g-4">
+            <!-- Bus Details Summary -->
+            <div class="col-12 mb-4">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 class="fw-bold mb-1">{{ $bus->bus_name }}</h5>
+                                <div class="d-flex flex-wrap gap-3 mb-2">
+                                    <div class="text-muted small">
+                                        <i class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($bus->departure_date)->format('D, M d, Y') }}
+                                    </div>
+                                    <div class="text-muted small">
+                                        <i class="bi bi-clock me-1"></i>{{ \Carbon\Carbon::parse($bus->departure_time)->format('h:i A') }}
+                                    </div>
+                                    <div class="text-muted small">
+                                        <span class="badge rounded-pill {{ $bus->bus_type == 'AC' ? 'bg-info' : ($bus->bus_type == 'Tourist' ? 'bg-success' : 'bg-secondary') }}">
+                                            {{ $bus->bus_type }}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                            <div class="text-muted small">Price Per Seat</div>
-                            <div class="fs-4 fw-bold text-primary">NPR {{ $bus->price }}</div>
+                            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                <div class="text-muted small">Price Per Seat</div>
+                                <div class="fs-4 fw-bold" style="color: #954ab4;">NPR {{ $bus->price }}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Seat Selection Area -->
-        <div class="col-lg-8">
-            <div class="card border-0 shadow-sm rounded-4 mb-4">
-                <div class="card-header bg-light p-4 border-0">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0"><i class="bi bi-grid-3x3-gap me-2"></i>Select Your Seats</h5>
-                        <div class="seat-info d-flex gap-3">
-                            <div class="d-flex align-items-center">
-                                <div class="seat-indicator available me-2"></div>
-                                <span class="small">Available</span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="seat-indicator booked me-2"></div>
-                                <span class="small">Booked</span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="seat-indicator reserved me-2"></div>
-                                <span class="small">Reserved</span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="seat-indicator selected me-2"></div>
-                                <span class="small">Selected</span>
+            <!-- Seat Selection Area -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-header bg-light p-4 border-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="bi bi-grid-3x3-gap me-2"></i>Select Your Seats</h5>
+                            <div class="seat-info d-flex gap-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="seat-indicator available me-2"></div>
+                                    <span class="small">Available</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="seat-indicator booked me-2"></div>
+                                    <span class="small">Booked</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="seat-indicator reserved me-2"></div>
+                                    <span class="small">Reserved</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="seat-indicator selected me-2"></div>
+                                    <span class="small">Selected</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-body p-4">
-                    <div class="bus-layout">
-                        <!-- Driver Section -->
-                        <div class="driver-section mb-4 d-flex justify-content-between align-items-center">
-                            <div class="driver-icon">
-                                <i class="bi bi-person-fill"></i>
-                            </div>
-                            <div class="steering-wheel">
-                                <i class="bi bi-circle"></i>
-                            </div>
-                            <div class="entry-door">
-                                <div class="door-indicator"></div>
-                            </div>
-                        </div>
-
-                        <!-- Seat Layout -->
-                        <div class="seat-container">
-                        <div class="row g-2 mb-4">
-                                <!-- Left Side Seats (A) -->
-                                <div class="col-6">
-                                    <div class="row g-2">
-                                        <div class="col-3">
-                                            <div class="seat available" data-seat="A1" data-price="{{ $bus->price }}">A1</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="seat available" data-seat="A2" data-price="{{ $bus->price }}">A2</div>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                               
-                                <!-- Right Side Seats (B) -->
-                                <div class="col-6">
-                                    <div class="row g-2">
-                                        <div class="col-3">
-                                            <div class="seat available" data-seat="B1" data-price="{{ $bus->price }}">B1</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="seat available" data-seat="B2" data-price="{{ $bus->price }}">B2</div>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row g-2 mb-4">
-                                <!-- Left Side Seats (A) -->
-                                <div class="col-6">
-                                    <div class="row g-2">
-                                        <div class="col-3">
-                                            <div class="seat available" data-seat="A5" data-price="{{ $bus->price }}">A3</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="seat available" data-seat="A6" data-price="{{ $bus->price }}">A4</div>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                               
-                                <!-- Right Side Seats (B) -->
-                                <div class="col-6">
-                                    <div class="row g-2">
-                                        <div class="col-3">
-                                            <div class="seat available" data-seat="B5" data-price="{{ $bus->price }}">B3</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="seat available" data-seat="B6" data-price="{{ $bus->price }}">B4</div>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row g-2 mb-4">
-                                <!-- Left Side Seats (A) -->
-                                <div class="col-6">
-                                    <div class="row g-2">
-                                        <div class="col-3">
-                                            <div class="seat available" data-seat="A9" data-price="{{ $bus->price }}">A5</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="seat available" data-seat="A10" data-price="{{ $bus->price }}">A6</div>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                               
-                                <!-- Right Side Seats (B) -->
-                                <div class="col-6">
-                                    <div class="row g-2">
-                                        <div class="col-3">
-                                            <div class="seat available" data-seat="B9" data-price="{{ $bus->price }}">B5</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="seat available" data-seat="B10" data-price="{{ $bus->price }}">B6</div>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row g-2 mb-4">
-                                <!-- Left Side Seats (A) -->
-                                <div class="col-6">
-                                    <div class="row g-2">
-                                        <div class="col-3">
-                                            <div class="seat available" data-seat="A13" data-price="{{ $bus->price }}">A7</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="seat available" data-seat="A14" data-price="{{ $bus->price }}">A8</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="seat available" data-seat="A14" data-price="{{ $bus->price }}">A9</div>
-                                        </div>
-                                    </div>
-                                </div>
-                               
-                                <!-- Right Side Seats (B) -->
-                                <div class="col-6">
-                                    <div class="row g-2">
-                                        <div class="col-3">
-                                            <div class="seat available" data-seat="B13" data-price="{{ $bus->price }}">B7</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="seat available" data-seat="B14" data-price="{{ $bus->price }}">B8</div>
-                                        </div>
-                                       
-                                    </div>
-                                </div>
-                            </div>
-
+                    <div class="card-body p-4">
+                        <div class="bus-layout">
                             
-                        </div>
-                    </div>
+
+                            <!-- Static Seat Layout -->
+                            <div class="bus-container">
+    <!-- Driver's area -->
+    <div class="row g-2 mb-4">
+        <div class="col-12">
+            <div class="driver-area">
+                <div class="steering-wheel">
+                    <i class="fas fa-steering-wheel"></i>
                 </div>
+                <div class="driver-text">Driver</div>
             </div>
         </div>
+    </div>
+    
+    <!-- Front door/entrance -->
+    <div class="row g-2 mb-4">
+        <div class="col-12">
+            <div class="bus-entrance">
+                <div class="door"></div>
+                <div class="steps"></div>
+            </div>
+        </div>
+    </div>
 
-        <!-- Booking Summary -->
-        <div class="col-lg-4">
-            <div class="card border-0 shadow-sm rounded-4 sticky-lg-top" style="top: 20px;">
-                <div class="card-header bg-primary text-white p-4 border-0">
-                    <h5 class="mb-0"><i class="bi bi-ticket-perforated-fill me-2"></i>Booking Summary</h5>
-                </div>
-                <div class="card-body p-4">
-                    <div class="mb-4">
-                        <label class="form-label fw-bold">Boarding Point</label>
-                        <select class="form-select" id="boardingPoint">
-                            <option value="">Select boarding point</option>
-                            <option value="Main Bus Terminal">Kalanki</option>
-                            <option value="City Center">Naya Bus Park</option>
-                        
-                        </select>
-                    </div>
+    <!-- First row of seats -->
+    <div class="row g-2 mb-3">
+        <!-- Left side (window seats) -->
+        <div class="col-3">
+            <div class="seat {{ in_array('A1', $bookedSeatsArray) ? 'booked' : 'available' }}" 
+                 data-seat="A1" 
+                 data-price="{{ $bus->price }}" 
+                 {{ in_array('A1', $bookedSeatsArray) ? 'disabled' : '' }}>
+                 A1
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="seat {{ in_array('A2', $bookedSeatsArray) ? 'booked' : 'available' }}" 
+                 data-seat="A2" 
+                 data-price="{{ $bus->price }}" 
+                 {{ in_array('A2', $bookedSeatsArray) ? 'disabled' : '' }}>
+                 A2
+            </div>
+        </div>
+        
+        <!-- Aisle -->
+        <div class="col-2">
+            <div class="aisle"></div>
+        </div>
+        
+        <!-- Right side (window seats) -->
+        <div class="col-2">
+            <div class="seat {{ in_array('A3', $bookedSeatsArray) ? 'booked' : 'available' }}" 
+                 data-seat="B1" 
+                 data-price="{{ $bus->price }}" 
+                 {{ in_array('B1', $bookedSeatsArray) ? 'disabled' : '' }}>
+                 B1
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="seat {{ in_array('A4', $bookedSeatsArray) ? 'booked' : 'available' }}" 
+                 data-seat="B2" 
+                 data-price="{{ $bus->price }}" 
+                 {{ in_array('B2', $bookedSeatsArray) ? 'disabled' : '' }}>
+                 B2
+            </div>
+        </div>
+    </div>
 
-                    <div class="booking-details">
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="fw-bold">Seat(s):</span>
-                                <span id="selectedSeats">-</span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="fw-bold">Fare:</span>
-                                <span id="fare">Rs.0</span>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span class="fw-bold">Total Amount:</span>
-                                <span id="totalAmount" class="fw-bold text-primary">Rs.0</span>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Second row of seats -->
+    <div class="row g-2 mb-3">
+        <!-- Left side (window seats) -->
+        <div class="col-3">
+            <div class="seat {{ in_array('B1', $bookedSeatsArray) ? 'booked' : 'available' }}" 
+                 data-seat="A3" 
+                 data-price="{{ $bus->price }}" 
+                 {{ in_array('A3', $bookedSeatsArray) ? 'disabled' : '' }}>
+                 A3
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="seat {{ in_array('B2', $bookedSeatsArray) ? 'booked' : 'available' }}" 
+                 data-seat="A4" 
+                 data-price="{{ $bus->price }}" 
+                 {{ in_array('A4', $bookedSeatsArray) ? 'disabled' : '' }}>
+                 A4
+            </div>
+        </div>
+        
+        <!-- Aisle -->
+        <div class="col-2">
+            <div class="aisle"></div>
+        </div>
+        
+        <!-- Right side (window seats) -->
+        <div class="col-2">
+            <div class="seat {{ in_array('B3', $bookedSeatsArray) ? 'booked' : 'available' }}" 
+                 data-seat="B3" 
+                 data-price="{{ $bus->price }}" 
+                 {{ in_array('B3', $bookedSeatsArray) ? 'disabled' : '' }}>
+                 B3
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="seat {{ in_array('B4', $bookedSeatsArray) ? 'booked' : 'available' }}" 
+                 data-seat="B4" 
+                 data-price="{{ $bus->price }}" 
+                 {{ in_array('B4', $bookedSeatsArray) ? 'disabled' : '' }}>
+                 B4
+            </div>
+        </div>
+    </div>
 
-                    <div class="mt-4">
-                        <button id="continueBtn" class="btn btn-success btn-lg w-100 d-flex align-items-center justify-content-center" disabled>
-                            <i class="bi bi-arrow-right-circle me-2"></i>Continue
-                        </button>
-                    </div>
+    <!-- Third row of seats -->
+    <div class="row g-2 mb-3">
+        <!-- Left side (window seats) -->
+        <div class="col-3">
+            <div class="seat {{ in_array('C1', $bookedSeatsArray) ? 'booked' : 'available' }}" 
+                 data-seat="A5" 
+                 data-price="{{ $bus->price }}" 
+                 {{ in_array('A5', $bookedSeatsArray) ? 'disabled' : '' }}>
+                 A5
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="seat {{ in_array('C2', $bookedSeatsArray) ? 'booked' : 'available' }}" 
+                 data-seat="A6" 
+                 data-price="{{ $bus->price }}" 
+                 {{ in_array('A6', $bookedSeatsArray) ? 'disabled' : '' }}>
+                 A6
+            </div>
+        </div>
+        
+        <!-- Aisle -->
+        <div class="col-2">
+            <div class="aisle"></div>
+        </div>
+        
+        <!-- Right side (window seats) -->
+        <div class="col-2">
+            <div class="seat {{ in_array('C3', $bookedSeatsArray) ? 'booked' : 'available' }}" 
+                 data-seat="B5" 
+                 data-price="{{ $bus->price }}" 
+                 {{ in_array('B5', $bookedSeatsArray) ? 'disabled' : '' }}>
+                 B5
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="seat {{ in_array('C4', $bookedSeatsArray) ? 'booked' : 'available' }}" 
+                 data-seat="B6" 
+                 data-price="{{ $bus->price }}" 
+                 {{ in_array('B6', $bookedSeatsArray) ? 'disabled' : '' }}>
+                 B6
+            </div>
+        </div>
+    </div>
 
-                    <div class="mt-4">
-                        <div class="alert alert-info p-3 mb-0">
-                            <div class="d-flex">
-                                <i class="bi bi-info-circle-fill me-2 fs-5"></i>
-                                <div>
-                                    <p class="mb-1 small">You can select up to 10 seats per booking.</p>
-                                    <p class="mb-0 small">Boarding point selection is mandatory.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Fourth row of seats -->
+    <div class="row g-2 mb-3">
+        <!-- Left side (window seats) -->
+        <div class="col-3">
+            <div class="seat {{ in_array('D1', $bookedSeatsArray) ? 'booked' : 'available' }}" 
+                 data-seat="A7" 
+                 data-price="{{ $bus->price }}" 
+                 {{ in_array('A7', $bookedSeatsArray) ? 'disabled' : '' }}>
+                 A7
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="seat {{ in_array('D2', $bookedSeatsArray) ? 'booked' : 'available' }}" 
+                 data-seat="A8" 
+                 data-price="{{ $bus->price }}" 
+                 {{ in_array('A8', $bookedSeatsArray) ? 'disabled' : '' }}>
+                 A8
+            </div>
+        </div>
+        
+        <!-- Aisle -->
+        <div class="col-2">
+            <div class="aisle"></div>
+        </div>
+        
+        <!-- Right side (window seats) -->
+        <div class="col-2">
+            <div class="seat {{ in_array('D3', $bookedSeatsArray) ? 'booked' : 'available' }}" 
+                 data-seat="B7" 
+                 data-price="{{ $bus->price }}" 
+                 {{ in_array('B7', $bookedSeatsArray) ? 'disabled' : '' }}>
+                 B7
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="seat {{ in_array('D4', $bookedSeatsArray) ? 'booked' : 'available' }}" 
+                 data-seat="B8" 
+                 data-price="{{ $bus->price }}" 
+                 {{ in_array('B8', $bookedSeatsArray) ? 'disabled' : '' }}>
+                 B8
+            </div>
+        </div>
+    </div>
+
+    <!-- Back row (optional - could be a full width back seat) -->
+    <div class="row g-2">
+        <div class="col-12">
+            <div class="back-row">
+                <!-- You could add more seats here for the back row -->
             </div>
         </div>
     </div>
 </div>
 
-<style>
-    .bus-layout {
-        max-width: 100%;
-        background-color: #f8f9fa;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
+<!-- CSS to add to your stylesheet -->
 
-    .seats {
-        display: grid;
-        grid-template-columns: repeat(5, 60px); /* 2 seats, aisle gap, 2 seats */
-        gap: 15px;
-        justify-content: center;
-        position: relative;
-    }
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    .seats::before {
-        content: '';
-        grid-column: 3;
-    }
+            <!-- Booking Summary & Form -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 sticky-lg-top" style="top:20px;">
+                    <div class="card-header text-white p-4 border-0" style="background-color:#954ab4;">
+                        <h5 class="mb-0"><i class="bi bi-ticket-perforated-fill me-2"></i>Booking Summary</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Boarding Point</label>
+                            <select class="form-select" name="boarding_point" id="boardingPoint" required>
+                                <option value="">Select boarding point</option>
+                                <option value="Main Bus Terminal">Kalanki</option>
+                                <option value="City Center">Naya Bus Park</option>
+                            </select>
+                        </div>
 
-    .seat {
-        width: 60px;
-        height: 60px;
-        line-height: 60px;
-        text-align: center;
-        border-radius: 10px;
-        font-weight: bold;
-        background-color: #f1f1f1;
-        color: #333;
-        transition: 0.3s;
-        cursor: pointer;
-        user-select: none;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+                        <div class="booking-details mb-3">
+                            <input type="hidden" name="selected_seats" id="selectedSeatsInput">
+                            <input type="hidden" name="total_amount" id="totalAmountInput">
 
-    .seat:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-    }
+                            <div class="d-flex justify-content-between mb-2"><span class="fw-bold">Seat(s):</span><span id="selectedSeatsDisplay">-</span></div>
+                            <div class="d-flex justify-content-between mb-2"><span class="fw-bold">Fare:</span><span id="fareDisplay">Rs.0</span></div>
+                            <div class="d-flex justify-content-between"><span class="fw-bold">Total Amount:</span><span id="totalAmountDisplay" class="fw-bold text-primary">Rs.0</span></div>
+                        </div>
 
-    .seat.available {
-        background-color: #d4edda;
-        color: #155724;
-    }
-
-    .seat.selected {
-        background-color: #007bff;
-        color: white;
-    }
-
-    .seat.booked {
-        background-color: #6c757d;
-        color: white;
-        cursor: not-allowed;
-        pointer-events: none;
-    }
-
-    .seat.reserved {
-        background-color: #ffc107;
-        color: #212529;
-        cursor: not-allowed;
-        pointer-events: none;
-    }
-
-    .seat-legend {
-        display: flex;
-        justify-content: space-around;
-        margin-top: 25px;
-        font-size: 14px;
-        flex-wrap: wrap;
-    }
-
-    .seat-legend div {
-        display: flex;
-        align-items: center;
-        margin: 5px 10px;
-    }
-
-    .seat-legend .seat {
-        width: 20px;
-        height: 20px;
-        margin-right: 8px;
-        font-size: 0;
-        box-shadow: none;
-        transition: none;
-        transform: none;
-    }
-
-    @media (max-width: 768px) {
-        .seats {
-            grid-template-columns: repeat(5, 50px);
-            gap: 10px;
-        }
-
-        .seat {
-            width: 50px;
-            height: 50px;
-            line-height: 50px;
-        }
-    }
-</style>
-
+                        <button type="submit" id="continueBtn" class="btn btn-success btn-lg w-100" disabled>
+                            <i class="bi bi-arrow-right-circle me-2"></i>Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 
 <script>
+// JS: select seats and populate form inputs
 document.addEventListener('DOMContentLoaded', function() {
     const seats = document.querySelectorAll('.seat.available');
-    const selectedSeatsElement = document.getElementById('selectedSeats');
-    const fareElement = document.getElementById('fare');
-    const totalAmountElement = document.getElementById('totalAmount');
+    const selectedSeatsDisplay = document.getElementById('selectedSeatsDisplay');
+    const fareDisplay = document.getElementById('fareDisplay');
+    const totalAmountDisplay = document.getElementById('totalAmountDisplay');
+    const selectedSeatsInput = document.getElementById('selectedSeatsInput');
+    const totalAmountInput = document.getElementById('totalAmountInput');
     const continueBtn = document.getElementById('continueBtn');
     const boardingPointSelect = document.getElementById('boardingPoint');
-   
+
     let selectedSeats = [];
     const maxSeats = 10;
-   
-    // Add click event to available seats
+
     seats.forEach(seat => {
-        seat.addEventListener('click', function() {
-            const seatNumber = this.getAttribute('data-seat');
-            const seatPrice = parseFloat(this.getAttribute('data-price'));
-           
-            if (this.classList.contains('selected')) {
-                // Deselect seat
-                this.classList.remove('selected');
-                selectedSeats = selectedSeats.filter(s => s.number !== seatNumber);
+        seat.addEventListener('click', () => {
+            const number = seat.getAttribute('data-seat');
+            const price = parseFloat(seat.getAttribute('data-price'));
+            const idx = selectedSeats.findIndex(s => s.number === number);
+            if (idx > -1) {
+                seat.classList.remove('selected');
+                selectedSeats.splice(idx,1);
+            } else if (selectedSeats.length < maxSeats) {
+                seat.classList.add('selected');
+                selectedSeats.push({number, price});
             } else {
-                // Select seat if not at max
-                if (selectedSeats.length < maxSeats) {
-                    this.classList.add('selected');
-                    selectedSeats.push({
-                        number: seatNumber,
-                        price: seatPrice
-                    });
-                } else {
-                    alert(`You can only select up to ${maxSeats} seats.`);
-                    return;
-                }
+                alert(`You can only select up to ${maxSeats} seats.`);
             }
-           
             updateSummary();
         });
     });
-   
-    // Update boarding point validation
-    boardingPointSelect.addEventListener('change', function() {
-        updateContinueButton();
-    });
-   
+
+    boardingPointSelect.addEventListener('change', updateContinueButton);
+
     function updateSummary() {
-        if (selectedSeats.length > 0) {
-            // Update selected seats display
-            selectedSeatsElement.textContent = selectedSeats.map(s => s.number).join(', ');
-           
-            // Calculate total fare
-            const totalFare = selectedSeats.reduce((sum, seat) => sum + seat.price, 0);
-            fareElement.textContent = `Rs.${totalFare}`;
-            totalAmountElement.textContent = `Rs.${totalFare}`;
+        const count = selectedSeats.length;
+        if (count) {
+            const seatsStr = selectedSeats.map(s=>s.number).join(',');
+            const sum = selectedSeats.reduce((a,s)=>a+s.price,0);
+            selectedSeatsDisplay.textContent = seatsStr;
+            fareDisplay.textContent = `Rs.${sum}`;
+            totalAmountDisplay.textContent = `Rs.${sum}`;
+            selectedSeatsInput.value = seatsStr;
+            totalAmountInput.value = sum.toFixed(2);
         } else {
-            // Reset if no seats selected
-            selectedSeatsElement.textContent = '-';
-            fareElement.textContent = 'Rs.0';
-            totalAmountElement.textContent = 'Rs.0';
+            selectedSeatsDisplay.textContent = '-';
+            fareDisplay.textContent = 'Rs.0';
+            totalAmountDisplay.textContent = 'Rs.0';
+            selectedSeatsInput.value = '';
+            totalAmountInput.value = '';
         }
-       
         updateContinueButton();
     }
-   
+
     function updateContinueButton() {
-        // Enable continue button only if seats are selected and boarding point is chosen
-        if (selectedSeats.length > 0 && boardingPointSelect.value) {
-            continueBtn.disabled = false;
-        } else {
-            continueBtn.disabled = true;
-        }
+        continueBtn.disabled = !(boardingPointSelect.value && selectedSeats.length);
     }
-   
-    // Handle continue button click
-    continueBtn.addEventListener('click', function() {
-        if (selectedSeats.length === 0) {
-            alert('Please select at least one seat.');
-            return;
-        }
-       
-        if (!boardingPointSelect.value) {
-            alert('Please select a boarding point.');
-            return;
-        }
-       
-        // Prepare data for form submission
-        const bookingData = {
-            bus_id: '{{ $bus->id }}',
-            selected_seats: selectedSeats.map(s => s.number),
-            boarding_point: boardingPointSelect.value,
-            total_amount: selectedSeats.reduce((sum, seat) => sum + seat.price, 0)
-        };
-       
-        // Here you would normally submit the form or redirect to payment page
-        console.log('Booking data:', bookingData);
-       
-        // Redirect to passenger details page (you would implement this)
-        // window.location.href = "{{ route('passenger.details') }}?data=" + encodeURIComponent(JSON.stringify(bookingData));
-       
-        // For demo purposes, just show an alert
-        alert('Proceeding to passenger details with selected seats: ' + selectedSeats.map(s => s.number).join(', '));
-    });
 });
 </script>
+
+
+
+<style>
+.bus-container {
+    background-color: #f8f9fa;
+    border: 2px solid #343a40;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.driver-area {
+    background-color: #e9ecef;
+    height: 60px;
+    border-radius: 50% 50% 0 0;
+    position: relative;
+    border: 1px solid #ced4da;
+}
+
+.steering-wheel {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #6c757d;
+    position: absolute;
+    top: 15px;
+    right: 110px;
+}
+
+.driver-text {
+    position: absolute;
+    top: 20px;
+    right: 70px;
+    font-size: 12px;
+}
+
+.bus-entrance {
+    height: 40px;
+    width: 80px;
+    background-color: grey;
+    position: relative;
+}
+
+.door {
+    height: 100%;
+    width: 60px;
+    border: 1px dashed #6c757d;
+    position: absolute;
+    left: 20px;
+}
+
+.steps {
+    height: 100%;
+    width: 40px;
+    border-left: 1px solid #6c757d;
+    position: absolute;
+    left: 80px;
+}
+
+.seat {
+    height: 50px;
+    width: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.available {
+    background-color: #28a745;
+    color: white;
+}
+.reserved {
+    background-color: yellow;
+    color: white;
+}
+
+.booked {
+    background-color: #dc3545;
+    color: white;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.aisle {
+    height: 50px;
+    background-color: transparent;
+}
+
+.back-row {
+    height: 20px;
+    background-color: #e9ecef;
+    border-radius: 0 0 8px 8px;
+}
+
+.seat:hover:not(.booked) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+</style>
+
+
+
+
 @endsection
