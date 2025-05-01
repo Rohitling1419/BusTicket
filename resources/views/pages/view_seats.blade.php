@@ -43,7 +43,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="mb-0"><i class="bi bi-grid-3x3-gap me-2"></i>Select Your Seats</h5>
                             <div class="seat-info d-flex gap-3">
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center mb-2">
                                     <div class="seat-indicator available me-2"></div>
                                     <span class="small">Available</span>
                                 </div>
@@ -51,10 +51,7 @@
                                     <div class="seat-indicator booked me-2"></div>
                                     <span class="small">Booked</span>
                                 </div>
-                                <div class="d-flex align-items-center">
-                                    <div class="seat-indicator reserved me-2"></div>
-                                    <span class="small">Reserved</span>
-                                </div>
+
                                 <div class="d-flex align-items-center">
                                     <div class="seat-indicator selected me-2"></div>
                                     <span class="small">Selected</span>
@@ -64,219 +61,219 @@
                     </div>
                     <div class="card-body p-4">
                         <div class="bus-layout">
-                            
+
 
                             <!-- Static Seat Layout -->
                             <div class="bus-container">
-    <!-- Driver's area -->
-    <div class="row g-2 mb-4">
-        <div class="col-12">
-            <div class="driver-area">
-                <div class="steering-wheel">
-                    <i class="fas fa-steering-wheel"></i>
-                </div>
-                <div class="driver-text">Driver</div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Front door/entrance -->
-    <div class="row g-2 mb-4">
-        <div class="col-12">
-            <div class="bus-entrance">
-                <div class="door"></div>
-                <div class="steps"></div>
-            </div>
-        </div>
-    </div>
+                                <!-- Driver's area -->
+                                <div class="row g-2 mb-4">
+                                    <div class="col-12">
+                                        <div class="driver-area">
+                                            <div class="steering-wheel">
+                                                <i class="fas fa-steering-wheel"></i>
+                                            </div>
+                                            <div class="driver-text">Driver</div>
+                                        </div>
+                                    </div>
+                                </div>
 
-    <!-- First row of seats -->
-    <div class="row g-2 mb-3">
-        <!-- Left side (window seats) -->
-        <div class="col-3">
-            <div class="seat {{ in_array('A1', $bookedSeatsArray) ? 'booked' : 'available' }}" 
-                 data-seat="A1" 
-                 data-price="{{ $bus->price }}" 
-                 {{ in_array('A1', $bookedSeatsArray) ? 'disabled' : '' }}>
-                 A1
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="seat {{ in_array('A2', $bookedSeatsArray) ? 'booked' : 'available' }}" 
-                 data-seat="A2" 
-                 data-price="{{ $bus->price }}" 
-                 {{ in_array('A2', $bookedSeatsArray) ? 'disabled' : '' }}>
-                 A2
-            </div>
-        </div>
-        
-        <!-- Aisle -->
-        <div class="col-2">
-            <div class="aisle"></div>
-        </div>
-        
-        <!-- Right side (window seats) -->
-        <div class="col-2">
-            <div class="seat {{ in_array('A3', $bookedSeatsArray) ? 'booked' : 'available' }}" 
-                 data-seat="B1" 
-                 data-price="{{ $bus->price }}" 
-                 {{ in_array('B1', $bookedSeatsArray) ? 'disabled' : '' }}>
-                 B1
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="seat {{ in_array('A4', $bookedSeatsArray) ? 'booked' : 'available' }}" 
-                 data-seat="B2" 
-                 data-price="{{ $bus->price }}" 
-                 {{ in_array('B2', $bookedSeatsArray) ? 'disabled' : '' }}>
-                 B2
-            </div>
-        </div>
-    </div>
+                                <!-- Front door/entrance -->
+                                <div class="row g-2 mb-4">
+                                    <div class="col-12">
+                                        <div class="bus-entrance">
+                                            <div class="door">Door</div>
+                                            <div class="steps"></div>
+                                        </div>
+                                    </div>
+                                </div>
 
-    <!-- Second row of seats -->
-    <div class="row g-2 mb-3">
-        <!-- Left side (window seats) -->
-        <div class="col-3">
-            <div class="seat {{ in_array('B1', $bookedSeatsArray) ? 'booked' : 'available' }}" 
-                 data-seat="A3" 
-                 data-price="{{ $bus->price }}" 
-                 {{ in_array('A3', $bookedSeatsArray) ? 'disabled' : '' }}>
-                 A3
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="seat {{ in_array('B2', $bookedSeatsArray) ? 'booked' : 'available' }}" 
-                 data-seat="A4" 
-                 data-price="{{ $bus->price }}" 
-                 {{ in_array('A4', $bookedSeatsArray) ? 'disabled' : '' }}>
-                 A4
-            </div>
-        </div>
-        
-        <!-- Aisle -->
-        <div class="col-2">
-            <div class="aisle"></div>
-        </div>
-        
-        <!-- Right side (window seats) -->
-        <div class="col-2">
-            <div class="seat {{ in_array('B3', $bookedSeatsArray) ? 'booked' : 'available' }}" 
-                 data-seat="B3" 
-                 data-price="{{ $bus->price }}" 
-                 {{ in_array('B3', $bookedSeatsArray) ? 'disabled' : '' }}>
-                 B3
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="seat {{ in_array('B4', $bookedSeatsArray) ? 'booked' : 'available' }}" 
-                 data-seat="B4" 
-                 data-price="{{ $bus->price }}" 
-                 {{ in_array('B4', $bookedSeatsArray) ? 'disabled' : '' }}>
-                 B4
-            </div>
-        </div>
-    </div>
+                                <!-- First row of seats -->
+                                <div class="row g-2 mb-3">
+                                    <!-- Left side (window seats) -->
+                                    <div class="col-3">
+                                        <div class="seat {{ in_array('A1', $bookedSeatsArray) ? 'booked' : 'available' }}"
+                                            data-seat="A1"
+                                            data-price="{{ $bus->price }}"
+                                            {{ in_array('A1', $bookedSeatsArray) ? 'disabled' : '' }}>
+                                            A1
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="seat {{ in_array('A2', $bookedSeatsArray) ? 'booked' : 'available' }}"
+                                            data-seat="A2"
+                                            data-price="{{ $bus->price }}"
+                                            {{ in_array('A2', $bookedSeatsArray) ? 'disabled' : '' }}>
+                                            A2
+                                        </div>
+                                    </div>
 
-    <!-- Third row of seats -->
-    <div class="row g-2 mb-3">
-        <!-- Left side (window seats) -->
-        <div class="col-3">
-            <div class="seat {{ in_array('C1', $bookedSeatsArray) ? 'booked' : 'available' }}" 
-                 data-seat="A5" 
-                 data-price="{{ $bus->price }}" 
-                 {{ in_array('A5', $bookedSeatsArray) ? 'disabled' : '' }}>
-                 A5
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="seat {{ in_array('C2', $bookedSeatsArray) ? 'booked' : 'available' }}" 
-                 data-seat="A6" 
-                 data-price="{{ $bus->price }}" 
-                 {{ in_array('A6', $bookedSeatsArray) ? 'disabled' : '' }}>
-                 A6
-            </div>
-        </div>
-        
-        <!-- Aisle -->
-        <div class="col-2">
-            <div class="aisle"></div>
-        </div>
-        
-        <!-- Right side (window seats) -->
-        <div class="col-2">
-            <div class="seat {{ in_array('C3', $bookedSeatsArray) ? 'booked' : 'available' }}" 
-                 data-seat="B5" 
-                 data-price="{{ $bus->price }}" 
-                 {{ in_array('B5', $bookedSeatsArray) ? 'disabled' : '' }}>
-                 B5
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="seat {{ in_array('C4', $bookedSeatsArray) ? 'booked' : 'available' }}" 
-                 data-seat="B6" 
-                 data-price="{{ $bus->price }}" 
-                 {{ in_array('B6', $bookedSeatsArray) ? 'disabled' : '' }}>
-                 B6
-            </div>
-        </div>
-    </div>
+                                    <!-- Aisle -->
+                                    <div class="col-2">
+                                        <div class="aisle"></div>
+                                    </div>
 
-    <!-- Fourth row of seats -->
-    <div class="row g-2 mb-3">
-        <!-- Left side (window seats) -->
-        <div class="col-3">
-            <div class="seat {{ in_array('D1', $bookedSeatsArray) ? 'booked' : 'available' }}" 
-                 data-seat="A7" 
-                 data-price="{{ $bus->price }}" 
-                 {{ in_array('A7', $bookedSeatsArray) ? 'disabled' : '' }}>
-                 A7
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="seat {{ in_array('D2', $bookedSeatsArray) ? 'booked' : 'available' }}" 
-                 data-seat="A8" 
-                 data-price="{{ $bus->price }}" 
-                 {{ in_array('A8', $bookedSeatsArray) ? 'disabled' : '' }}>
-                 A8
-            </div>
-        </div>
-        
-        <!-- Aisle -->
-        <div class="col-2">
-            <div class="aisle"></div>
-        </div>
-        
-        <!-- Right side (window seats) -->
-        <div class="col-2">
-            <div class="seat {{ in_array('D3', $bookedSeatsArray) ? 'booked' : 'available' }}" 
-                 data-seat="B7" 
-                 data-price="{{ $bus->price }}" 
-                 {{ in_array('B7', $bookedSeatsArray) ? 'disabled' : '' }}>
-                 B7
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="seat {{ in_array('D4', $bookedSeatsArray) ? 'booked' : 'available' }}" 
-                 data-seat="B8" 
-                 data-price="{{ $bus->price }}" 
-                 {{ in_array('B8', $bookedSeatsArray) ? 'disabled' : '' }}>
-                 B8
-            </div>
-        </div>
-    </div>
+                                    <!-- Right side (window seats) -->
+                                    <div class="col-2">
+                                        <div class="seat {{ in_array('B1', $bookedSeatsArray) ? 'booked' : 'available' }}"
+                                            data-seat="B1"
+                                            data-price="{{ $bus->price }}"
+                                            {{ in_array('B1', $bookedSeatsArray) ? 'disabled' : '' }}>
+                                            B1
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="seat {{ in_array('B2', $bookedSeatsArray) ? 'booked' : 'available' }}"
+                                            data-seat="B2"
+                                            data-price="{{ $bus->price }}"
+                                            {{ in_array('B2', $bookedSeatsArray) ? 'disabled' : '' }}>
+                                            B2
+                                        </div>
+                                    </div>
+                                </div>
 
-    <!-- Back row (optional - could be a full width back seat) -->
-    <div class="row g-2">
-        <div class="col-12">
-            <div class="back-row">
-                <!-- You could add more seats here for the back row -->
-            </div>
-        </div>
-    </div>
-</div>
+                                <!-- Second row of seats -->
+                                <div class="row g-2 mb-3">
+                                    <!-- Left side (window seats) -->
+                                    <div class="col-3">
+                                        <div class="seat {{ in_array('A3', $bookedSeatsArray) ? 'booked' : 'available' }}"
+                                            data-seat="A3"
+                                            data-price="{{ $bus->price }}"
+                                            {{ in_array('A3', $bookedSeatsArray) ? 'disabled' : '' }}>
+                                            A3
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="seat {{ in_array('A4', $bookedSeatsArray) ? 'booked' : 'available' }}"
+                                            data-seat="A4"
+                                            data-price="{{ $bus->price }}"
+                                            {{ in_array('A4', $bookedSeatsArray) ? 'disabled' : '' }}>
+                                            A4
+                                        </div>
+                                    </div>
 
-<!-- CSS to add to your stylesheet -->
+                                    <!-- Aisle -->
+                                    <div class="col-2">
+                                        <div class="aisle"></div>
+                                    </div>
+
+                                    <!-- Right side (window seats) -->
+                                    <div class="col-2">
+                                        <div class="seat {{ in_array('B3', $bookedSeatsArray) ? 'booked' : 'available' }}"
+                                            data-seat="B3"
+                                            data-price="{{ $bus->price }}"
+                                            {{ in_array('B3', $bookedSeatsArray) ? 'disabled' : '' }}>
+                                            B3
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="seat {{ in_array('B4', $bookedSeatsArray) ? 'booked' : 'available' }}"
+                                            data-seat="B4"
+                                            data-price="{{ $bus->price }}"
+                                            {{ in_array('B4', $bookedSeatsArray) ? 'disabled' : '' }}>
+                                            B4
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Third row of seats -->
+                                <div class="row g-2 mb-3">
+                                    <!-- Left side (window seats) -->
+                                    <div class="col-3">
+                                        <div class="seat {{ in_array('A5', $bookedSeatsArray) ? 'booked' : 'available' }}"
+                                            data-seat="A5"
+                                            data-price="{{ $bus->price }}"
+                                            {{ in_array('A5', $bookedSeatsArray) ? 'disabled' : '' }}>
+                                            A5
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="seat {{ in_array('A6', $bookedSeatsArray) ? 'booked' : 'available' }}"
+                                            data-seat="A6"
+                                            data-price="{{ $bus->price }}"
+                                            {{ in_array('A6', $bookedSeatsArray) ? 'disabled' : '' }}>
+                                            A6
+                                        </div>
+                                    </div>
+
+                                    <!-- Aisle -->
+                                    <div class="col-2">
+                                        <div class="aisle"></div>
+                                    </div>
+
+                                    <!-- Right side (window seats) -->
+                                    <div class="col-2">
+                                        <div class="seat {{ in_array('B5', $bookedSeatsArray) ? 'booked' : 'available' }}"
+                                            data-seat="B5"
+                                            data-price="{{ $bus->price }}"
+                                            {{ in_array('B5', $bookedSeatsArray) ? 'disabled' : '' }}>
+                                            B5
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="seat {{ in_array('B6', $bookedSeatsArray) ? 'booked' : 'available' }}"
+                                            data-seat="B6"
+                                            data-price="{{ $bus->price }}"
+                                            {{ in_array('B6', $bookedSeatsArray) ? 'disabled' : '' }}>
+                                            B6
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Fourth row of seats -->
+                                <div class="row g-2 mb-3">
+                                    <!-- Left side (window seats) -->
+                                    <div class="col-3">
+                                        <div class="seat {{ in_array('A7', $bookedSeatsArray) ? 'booked' : 'available' }}"
+                                            data-seat="A7"
+                                            data-price="{{ $bus->price }}"
+                                            {{ in_array('A7', $bookedSeatsArray) ? 'disabled' : '' }}>
+                                            A7
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="seat {{ in_array('A8', $bookedSeatsArray) ? 'booked' : 'available' }}"
+                                            data-seat="A8"
+                                            data-price="{{ $bus->price }}"
+                                            {{ in_array('A8', $bookedSeatsArray) ? 'disabled' : '' }}>
+                                            A8
+                                        </div>
+                                    </div>
+
+                                    <!-- Aisle -->
+                                    <div class="col-2">
+                                        <div class="aisle"></div>
+                                    </div>
+
+                                    <!-- Right side (window seats) -->
+                                    <div class="col-2">
+                                        <div class="seat {{ in_array('B7', $bookedSeatsArray) ? 'booked' : 'available' }}"
+                                            data-seat="B7"
+                                            data-price="{{ $bus->price }}"
+                                            {{ in_array('B7', $bookedSeatsArray) ? 'disabled' : '' }}>
+                                            B7
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="seat {{ in_array('B8', $bookedSeatsArray) ? 'booked' : 'available' }}"
+                                            data-seat="B8"
+                                            data-price="{{ $bus->price }}"
+                                            {{ in_array('B8', $bookedSeatsArray) ? 'disabled' : '' }}>
+                                            B8
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Back row (optional - could be a full width back seat) -->
+                                <div class="row g-2">
+                                    <div class="col-12">
+                                        <div class="back-row">
+                                            <!-- You could add more seats here for the back row -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CSS to add to your stylesheet -->
 
                         </div>
                     </div>
@@ -315,177 +312,272 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="confirmationModalLabel">Confirm Your Booking</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Seat(s):</strong> <span id="confirmationModalSeats">-</span></p>
+                    <p><strong>Total Fare:</strong> <span id="confirmationModalFare">Rs.0</span></p>
+                    <p>Please confirm your booking before proceeding.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" id="confirmBookingBtn">Yes, Book Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
     </form>
+    
+
 </div>
 
 <script>
-// JS: select seats and populate form inputs
-document.addEventListener('DOMContentLoaded', function() {
-    const seats = document.querySelectorAll('.seat.available');
-    const selectedSeatsDisplay = document.getElementById('selectedSeatsDisplay');
-    const fareDisplay = document.getElementById('fareDisplay');
-    const totalAmountDisplay = document.getElementById('totalAmountDisplay');
-    const selectedSeatsInput = document.getElementById('selectedSeatsInput');
-    const totalAmountInput = document.getElementById('totalAmountInput');
-    const continueBtn = document.getElementById('continueBtn');
-    const boardingPointSelect = document.getElementById('boardingPoint');
+    document.addEventListener('DOMContentLoaded', function() {
+        const seats = document.querySelectorAll('.seat.available');
+        const selectedSeatsDisplay = document.getElementById('selectedSeatsDisplay');
+        const fareDisplay = document.getElementById('fareDisplay');
+        const totalAmountDisplay = document.getElementById('totalAmountDisplay');
+        const selectedSeatsInput = document.getElementById('selectedSeatsInput');
+        const totalAmountInput = document.getElementById('totalAmountInput');
+        const continueBtn = document.getElementById('continueBtn');
+        const boardingPointSelect = document.getElementById('boardingPoint');
+        const confirmationModalSeats = document.getElementById('confirmationModalSeats');
+        const confirmationModalFare = document.getElementById('confirmationModalFare');
+        const form = document.getElementById('seatBookingForm');
 
-    let selectedSeats = [];
-    const maxSeats = 10;
+        let selectedSeats = [];
+        const maxSeats = 10;
 
-    seats.forEach(seat => {
-        seat.addEventListener('click', () => {
-            const number = seat.getAttribute('data-seat');
-            const price = parseFloat(seat.getAttribute('data-price'));
-            const idx = selectedSeats.findIndex(s => s.number === number);
-            if (idx > -1) {
-                seat.classList.remove('selected');
-                selectedSeats.splice(idx,1);
-            } else if (selectedSeats.length < maxSeats) {
-                seat.classList.add('selected');
-                selectedSeats.push({number, price});
-            } else {
-                alert(`You can only select up to ${maxSeats} seats.`);
-            }
-            updateSummary();
+        seats.forEach(seat => {
+            seat.addEventListener('click', () => {
+                const number = seat.getAttribute('data-seat');
+                const price = parseFloat(seat.getAttribute('data-price'));
+                const idx = selectedSeats.findIndex(s => s.number === number);
+                if (idx > -1) {
+                    seat.classList.remove('selected');
+                    selectedSeats.splice(idx, 1);
+                } else if (selectedSeats.length < maxSeats) {
+                    seat.classList.add('selected');
+                    selectedSeats.push({
+                        number,
+                        price
+                    });
+                } else {
+                    alert(`You can only select up to ${maxSeats} seats.`);
+                }
+                updateSummary();
+            });
         });
-    });
 
-    boardingPointSelect.addEventListener('change', updateContinueButton);
+        boardingPointSelect.addEventListener('change', updateContinueButton);
 
-    function updateSummary() {
-        const count = selectedSeats.length;
-        if (count) {
-            const seatsStr = selectedSeats.map(s=>s.number).join(',');
-            const sum = selectedSeats.reduce((a,s)=>a+s.price,0);
-            selectedSeatsDisplay.textContent = seatsStr;
-            fareDisplay.textContent = `Rs.${sum}`;
-            totalAmountDisplay.textContent = `Rs.${sum}`;
-            selectedSeatsInput.value = seatsStr;
-            totalAmountInput.value = sum.toFixed(2);
-        } else {
-            selectedSeatsDisplay.textContent = '-';
-            fareDisplay.textContent = 'Rs.0';
-            totalAmountDisplay.textContent = 'Rs.0';
-            selectedSeatsInput.value = '';
-            totalAmountInput.value = '';
+        function updateSummary() {
+            const count = selectedSeats.length;
+            if (count) {
+                const seatsStr = selectedSeats.map(s => s.number).join(', ');
+                const sum = selectedSeats.reduce((a, s) => a + s.price, 0);
+                selectedSeatsDisplay.textContent = seatsStr;
+                fareDisplay.textContent = `Rs.${sum}`;
+                totalAmountDisplay.textContent = `Rs.${sum}`;
+                selectedSeatsInput.value = seatsStr;
+                totalAmountInput.value = sum.toFixed(2);
+            } else {
+                selectedSeatsDisplay.textContent = '-';
+                fareDisplay.textContent = 'Rs.0';
+                totalAmountDisplay.textContent = 'Rs.0';
+                selectedSeatsInput.value = '';
+                totalAmountInput.value = '';
+            }
+            updateContinueButton();
         }
-        updateContinueButton();
-    }
 
-    function updateContinueButton() {
-        continueBtn.disabled = !(boardingPointSelect.value && selectedSeats.length);
-    }
+        function updateContinueButton() {
+            continueBtn.disabled = !(boardingPointSelect.value && selectedSeats.length);
+        }
+
+        continueBtn.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent immediate form submission
+            if (boardingPointSelect.value && selectedSeats.length) {
+                const seatsStr = selectedSeats.map(s => s.number).join(', ');
+                const sum = selectedSeats.reduce((a, s) => a + s.price, 0);
+                confirmationModalSeats.textContent = seatsStr;
+                confirmationModalFare.textContent = `Rs.${sum}`;
+                const modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+                modal.show();
+            }
+        });
+
+        document.getElementById('confirmBookingBtn').addEventListener('click', function () {
+    // Collect booking data
+    const selectedSeats = document.getElementById('selectedSeatsInput').value;
+    const totalAmount = parseFloat(document.getElementById('totalAmountInput').value) * 100; // Khalti needs paisa
+    const bookingName = "{{ $bus->bus_name }}"; // or a more suitable name
+    const userId = "{{ auth()->id() }}"; // Pass this safely
+
+    const payload = {
+        service_id: "{{ $bus->id }}", // Use booking or bus ID as reference
+        name: bookingName,
+        amount: totalAmount,
+        user: userId
+    };
+
+    const csrfToken = document.querySelector('input[name="_token"]').value;
+    const submitBtn = document.getElementById('confirmBookingBtn');
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Redirecting...";
+
+    fetch("{{ route('khalti.purchase') }}", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
+        },
+        body: JSON.stringify(payload)
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.khalti_url) {
+                window.location.href = data.khalti_url;
+            } else {
+                alert("Error initiating payment. Please try again.");
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Yes, Book Now";
+            }
+        })
+        .catch(error => {
+            console.error('Payment initiation failed:', error);
+            alert("Something went wrong. Please try again later.");
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Yes, Book Now";
+        });
 });
+    });
 </script>
 
 
-
 <style>
-.bus-container {
-    background-color: #f8f9fa;
-    border: 2px solid #343a40;
-    border-radius: 10px;
-    padding: 20px;
-    max-width: 600px;
-    margin: 0 auto;
-}
+    .bus-container {
+        background-color: #f8f9fa;
+        border: 2px solid #343a40;
+        border-radius: 10px;
+        padding: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
 
-.driver-area {
-    background-color: #e9ecef;
-    height: 60px;
-    border-radius: 50% 50% 0 0;
-    position: relative;
-    border: 1px solid #ced4da;
-}
+    .driver-area {
+        background-color: #e9ecef;
+        height: 60px;
+        border-radius: 50% 50% 0 0;
+        position: relative;
+        border: 1px solid #ced4da;
+    }
 
-.steering-wheel {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #6c757d;
-    position: absolute;
-    top: 15px;
-    right: 110px;
-}
+    .steering-wheel {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #6c757d;
+        position: absolute;
+        top: 15px;
+        right: 110px;
+    }
 
-.driver-text {
-    position: absolute;
-    top: 20px;
-    right: 70px;
-    font-size: 12px;
-}
+    .driver-text {
+        position: absolute;
+        top: 20px;
+        right: 70px;
+        font-size: 12px;
+    }
 
-.bus-entrance {
-    height: 40px;
-    width: 80px;
-    background-color: grey;
-    position: relative;
-}
+    .bus-entrance {
+        height: 40px;
+        width: 80px;
+        background-color: grey;
+        position: relative;
+    }
 
-.door {
-    height: 100%;
-    width: 60px;
-    border: 1px dashed #6c757d;
-    position: absolute;
-    left: 20px;
-}
+    .door {
+        height: 100%;
+        width: 60px;
+        border: 1px dashed #6c757d;
+        position: absolute;
+        left: 20px;
+    }
 
-.steps {
-    height: 100%;
-    width: 40px;
-    border-left: 1px solid #6c757d;
-    position: absolute;
-    left: 80px;
-}
+    .steps {
+        height: 100%;
+        width: 40px;
+        border-left: 1px solid #6c757d;
+        position: absolute;
+        left: 80px;
+    }
 
-.seat {
-    height: 50px;
-    width: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
+    .seat {
+        height: 50px;
+        width: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-.available {
-    background-color: #28a745;
-    color: white;
-}
-.reserved {
-    background-color: yellow;
-    color: white;
-}
+    .seat-indicator {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+    }
 
-.booked {
-    background-color: #dc3545;
-    color: white;
-    cursor: not-allowed;
-    opacity: 0.7;
-}
+    .seat-indicator.available {
+        background-color: green;
+    }
 
-.aisle {
-    height: 50px;
-    background-color: transparent;
-}
+    .seat-indicator.booked {
+        background-color: red;
+    }
 
-.back-row {
-    height: 20px;
-    background-color: #e9ecef;
-    border-radius: 0 0 8px 8px;
-}
 
-.seat:hover:not(.booked) {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
+    .available {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .reserved {
+        background-color: yellow;
+        color: white;
+    }
+
+    .booked {
+        background-color: #dc3545;
+        color: white;
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+
+    .aisle {
+        height: 50px;
+        background-color: transparent;
+    }
+
+    .back-row {
+        height: 20px;
+        background-color: #e9ecef;
+        border-radius: 0 0 8px 8px;
+    }
+
+    .seat:hover:not(.booked) {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
 </style>
-
-
-
 
 @endsection

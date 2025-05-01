@@ -12,6 +12,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\KhaltiPaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -133,4 +134,11 @@ Route::post('/admin/logout', [LoginController::class, 'logout'])->name('admin.lo
 | Laravel Breeze Auth Scaffolding
 |--------------------------------------------------------------------------
 */
+Route::post('/khalti/purchase', [KhaltiPaymentController::class, 'purchase'])->name('khalti.purchase');
+Route::get('/verify-payment', function () {
+    return view('frontend.payment.success');
+});
+Route::post('/khalti/verify', [KhaltiPaymentController::class, 'verifyPayment'])->name('khalti.verify');
 require __DIR__ . '/auth.php';
+
+
