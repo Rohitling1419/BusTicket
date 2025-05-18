@@ -115,23 +115,26 @@ class PageController extends Controller
     // Show available seats for a specific bus
     public function viewSeats($busId)
     {
-        // Fetch the bus along with its seats
+        // Fetch the bus with its seats
         $bus = Bus::with('seats')->findOrFail($busId);
-
-        // Fetch all the booked seats for the given bus (confirmed bookings)
+    
+        // Fetch all confirmed booked seat strings (e.g. "B1, B2")
         $bookedSeats = Booking::where('bus_id', $busId)
-                              ->where('status', 'confirmed') // Only confirmed bookings
-                              ->pluck('seats_booked'); // Fetch booked seats
-
-        // Split the booked seats into an array, assuming they are stored as comma-separated values
+                              ->where('status', 'confirmed')
+                              ->pluck('seat_number');
+    
+        // Split and trim each seat
         $bookedSeatsArray = [];
         foreach ($bookedSeats as $seats) {
-            $bookedSeatsArray = array_merge($bookedSeatsArray, explode(',', $seats)); // Flatten the array
+            $trimmed = array_map('trim', explode(',', $seats));
+            $bookedSeatsArray = array_merge($bookedSeatsArray, $trimmed);
         }
-
-        // Pass the bus and the booked seats to the view
+    
+        // dd($bookedSeatsArray); // optional debug
+    
         return view('pages.view_seats', compact('bus', 'bookedSeatsArray'));
     }
+    
 
     // Handle passenger details and booking summary before finalizing the booking
     public function passengerDetails(Request $request)

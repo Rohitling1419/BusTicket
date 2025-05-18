@@ -1,12 +1,65 @@
 @extends('frontend.Master')
 @section('content')
 <section id="about-us" class="py-5">
-    <style>
+    
+    <div class="container about-container" style="margin-top: 5rem;">
+        <div class="row align-items-center">
+            <!-- Image Section -->
+            <div class="col-lg-6 col-md-12 img-section">
+                <div class="img-wrapper">
+                    <img src="{{ asset('Photos/about.png') }}" alt="About Us Image" class="img-fluid">
+                </div>
+            </div>
+
+            <!-- Text Section -->
+            <div class="col-lg-6 col-md-12 text-section">
+                <h2 class="about-heading">About Us</h2>
+                <p class="lead">
+                    Welcome to ChittoBus, your trusted travel companion. We are committed to providing safe, reliable, and comfortable journeys to our valued passengers.
+                </p>
+                <p class="about-text">
+                    Our mission is to connect people and places with excellence, offering top-notch service that ensures your satisfaction. Whether you're traveling for work or leisure, ChittoBus is here to make your journey seamless and enjoyable.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container counter-container">
+        <div class="counter-row row justify-content-center">
+            <!-- Counter 1 -->
+            <div class="col-lg-4 col-md-4 col-sm-12 text-center counter-section">
+                <div class="counter-icon">
+                    <i class="fa fa-calendar-check"></i>
+                </div>
+                <span class="counter" data-to="4">0</span>
+                <p class="counter-title">Years of Experience</p>
+            </div>
+            <!-- Counter 2 -->
+            <div class="col-lg-4 col-md-4 col-sm-12 text-center counter-section">
+                <div class="counter-icon">
+                    <i class="fa fa-users"></i>
+                </div>
+                <span class="counter" data-to="1000">0</span>
+                <p class="counter-title">Happy Clients</p>
+            </div>
+            <!-- Counter 3 -->
+            <div class="col-lg-4 col-md-4 col-sm-12 text-center counter-section">
+                <div class="counter-icon">
+                    <i class="fa fa-handshake"></i>
+                </div>
+                <span class="counter" data-to="1200">0</span>
+                <p class="counter-title">Clients Served</p>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
         #about-us {
             background: linear-gradient(135deg, #f5f7fa 0%, #e8edf5 100%);
             padding: 100px 0;
             position: relative;
             overflow: hidden;
+            margin-top: 50px;
         }
         
         #about-us::before {
@@ -225,56 +278,4 @@
             }
         }
     </style>
-
-    <div class="container about-container" style="margin-top: 2rem;">
-        <div class="row align-items-center">
-            <!-- Image Section -->
-            <div class="col-lg-6 col-md-12 img-section">
-                <div class="img-wrapper">
-                    <img src="{{ asset('Photos/about.png') }}" alt="About Us Image" class="img-fluid">
-                </div>
-            </div>
-
-            <!-- Text Section -->
-            <div class="col-lg-6 col-md-12 text-section">
-                <h2 class="about-heading">About Us</h2>
-                <p class="lead">
-                    Welcome to ChittoBus, your trusted travel companion. We are committed to providing safe, reliable, and comfortable journeys to our valued passengers.
-                </p>
-                <p class="about-text">
-                    Our mission is to connect people and places with excellence, offering top-notch service that ensures your satisfaction. Whether you're traveling for work or leisure, ChittoBus is here to make your journey seamless and enjoyable.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <div class="container counter-container">
-        <div class="counter-row row justify-content-center">
-            <!-- Counter 1 -->
-            <div class="col-lg-4 col-md-4 col-sm-12 text-center counter-section">
-                <div class="counter-icon">
-                    <i class="fa fa-calendar-check"></i>
-                </div>
-                <span class="counter" data-to="4">0</span>
-                <p class="counter-title">Years of Experience</p>
-            </div>
-            <!-- Counter 2 -->
-            <div class="col-lg-4 col-md-4 col-sm-12 text-center counter-section">
-                <div class="counter-icon">
-                    <i class="fa fa-users"></i>
-                </div>
-                <span class="counter" data-to="1000">0</span>
-                <p class="counter-title">Happy Clients</p>
-            </div>
-            <!-- Counter 3 -->
-            <div class="col-lg-4 col-md-4 col-sm-12 text-center counter-section">
-                <div class="counter-icon">
-                    <i class="fa fa-handshake"></i>
-                </div>
-                <span class="counter" data-to="1200">0</span>
-                <p class="counter-title">Clients Served</p>
-            </div>
-        </div>
-    </div>
-</section>
 @endsection

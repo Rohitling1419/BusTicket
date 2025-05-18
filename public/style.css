@@ -225,15 +225,18 @@
         gap: 1.5rem;
         justify-content: space-between;
         align-items: flex-end;
+        
     }
     
     .search-bar .form-group {
         flex: 1 1 220px;
         position: relative;
+        
     }
     
     .search-bar label {
         display: block;
+        
         font-weight: 600;
         margin-bottom: 0.75rem;
         color: var(--gray-800);
@@ -256,10 +259,20 @@
     .search-bar .form-group:hover label::after {
         width: 30px;
     }
-    
+    .form-group .city-input {
+        /* mimic your old select styling */
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        width: 100%;
+        background: #fff;
+        color: #495057;
+        margin-top: 2 rem;
+    }
     .search-bar select,
     .search-bar input[type="date"] {
         width: 100%;
+        height: 2.6rem;
         padding: 1rem 1.25rem;
         border: 1px solid var(--gray-300);
         border-radius: var(--radius);

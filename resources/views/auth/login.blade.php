@@ -1,11 +1,14 @@
 <x-guest-layout>
     <!-- Outer Div for Form Container -->
-    <div class="flex justify-center items-center w-full h-screen bg-login">
+    <div class="flex justify-center items-center w-full h-screen bg-login relative">
+        
         @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
+            <div class="alert-success fixed top-6 right-6 z-50 shadow-lg flex items-start justify-between gap-3">
+                <span>{{ session('success') }}</span>
+                <button onclick="this.parentElement.remove()" class="text-lg font-bold leading-none px-2 text-green-800 hover:text-red-500">&times;</button>
             </div>
         @endif
+
         <div class="login-container">
             <!-- Logo or Title -->
             <div class="login-logo">
@@ -19,7 +22,7 @@
                 <!-- Email Address -->
                 <div class="form-group">
                     <div class="flex items-center gap-2">
-                        <i class="fas fa-envelope text-gray-500"></i> <!-- Email Icon -->
+                        <i class="fas fa-envelope text-gray-500"></i>
                         <x-input-label for="email" :value="__('Email')" />
                     </div>
                     <div class="relative">
@@ -32,7 +35,7 @@
                 <!-- Password -->
                 <div class="form-group mt-4">
                     <div class="flex items-center gap-2">
-                        <i class="fas fa-lock text-gray-500"></i> <!-- Password Icon -->
+                        <i class="fas fa-lock text-gray-500"></i>
                         <x-input-label for="password" :value="__('Password')" />
                     </div>
                     <div class="relative">
@@ -40,7 +43,6 @@
                             required autocomplete="current-password" />
                         <i id="password-toggle"
                             class="fas fa-eye absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"></i>
-                        <!-- Eye Icon for Toggle -->
                     </div>
                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>
@@ -67,18 +69,17 @@
                         {{ __('Log in') }}
                     </x-primary-button>
                 </div>
+
                 <div class="mt-4 text-center">
                     <span class="text-sm text-gray-600">Don't have an account?</span>
                     <a href="{{ route('register') }}" class="text-sm text-red-500 hover:underline">Register</a>
                 </div>
-
             </form>
         </div>
     </div>
 
     <!-- Custom CSS -->
     <style>
-        /* Form Container Styling */
         .login-container {
             width: 100%;
             max-width: 380px;
@@ -89,7 +90,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Logo or Title */
         .login-logo h2 {
             text-align: center;
             font-size: 32px;
@@ -98,7 +98,6 @@
             transition: font-size 0.3s ease;
         }
 
-        /* Form Elements */
         .form-group {
             margin-bottom: 20px;
         }
@@ -123,7 +122,7 @@
         .btn-submit {
             width: 70%;
             justify-content: center;
-            background-color:rgb(147,7,231);
+            background-color: rgb(147, 7, 231);
             color: white;
             padding: 12px;
             border-radius: 5px;
@@ -137,21 +136,30 @@
             background-color: red;
         }
 
-        /* Icon Styling */
         .fa-envelope,
         .fa-lock,
         .fa-eye {
             font-size: 18px;
         }
 
-        /* Password Toggle */
         #password-toggle {
             right: 10px;
             top: 15px;
             cursor: pointer;
         }
 
-        /* Responsive Design */
+        .alert-success {
+            padding: 12px 16px;
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border: 1px solid #badbcc;
+            border-radius: 8px;
+            font-size: 14px;
+            min-width: 280px;
+            max-width: 320px;
+            z-index: 9999;
+        }
+
         @media (max-width: 768px) {
             .login-container {
                 padding: 30px;
@@ -190,7 +198,6 @@
                 font-size: 16px;
             }
 
-            /* Adjust the form container to fit smaller screens */
             .login-container {
                 max-width: 90%;
                 padding: 20px;
@@ -203,9 +210,9 @@
         }
     </style>
 
-    <!-- JavaScript for Password Visibility Toggle -->
+    <!-- JavaScript for Password Visibility Toggle + Auto-hide Alert -->
     <script>
-        document.getElementById('password-toggle').addEventListener('click', function() {
+        document.getElementById('password-toggle').addEventListener('click', function () {
             var passwordInput = document.getElementById('password');
             var passwordToggleIcon = document.getElementById('password-toggle');
             if (passwordInput.type === 'password') {
@@ -218,5 +225,15 @@
                 passwordToggleIcon.classList.add('fa-eye');
             }
         });
+
+        // Auto-hide success alert after 4 seconds
+        setTimeout(() => {
+            const alert = document.querySelector('.alert-success');
+            if (alert) {
+                alert.style.transition = 'opacity 0.4s ease';
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 400);
+            }
+        }, 4000);
     </script>
 </x-guest-layout>

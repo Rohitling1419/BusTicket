@@ -13,11 +13,12 @@
       <div class="col-md-4">
         <h5>Quick Links</h5>
         <ul class="list-unstyled">
+          <u>
           <li><a href="/" class="text-light text-decoration-none">Home</a></li>
           <li><a href="/about" class="text-light text-decoration-none">About</a></li>
           <li><a href="/contact" class="text-light text-decoration-none">Contact</a></li>
           <li><a href="/blog" class="text-light text-decoration-none">Blog</a></li>
-
+          </u>
         </ul>
       </div>
 

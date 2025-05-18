@@ -8,51 +8,65 @@
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <h2 class="text-center mb-4 text-white">Find Your Perfect Journey</h2>
+                <div class="container-fluid py-4" style="margin-top: 4rem;">
+
                 <div class="container my-5">
-    <div class="card shadow rounded-4 p-4">
-        <h4 class="mb-4 text-center">Search for Buses</h4>
-        <form action="{{ route('search.buses') }}" method="GET">
-            <div class="row g-3">
-                <!-- From -->
-                <div class="col-md-4">
-                    <label for="from" class="form-label">From</label>
-                    <select name="from" id="from" class="form-select" required>
-                        <option value="" disabled selected>Select departure city</option>
-                        @foreach($cities as $city)
-                            <option value="{{ $city }}" {{ (old('from', $from) == $city) ? 'selected' : '' }}>{{ $city }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                    <div class="card shadow rounded-4 p-4">
+                        <h4 class="mb-4 text-center">Search for Buses</h4>
 
-                <!-- To -->
-                <div class="col-md-4">
-                    <label for="to" class="form-label">To</label>
-                    <select name="to" id="to" class="form-select" required>
-                        <option value="" disabled selected>Select destination city</option>
-                        @foreach($cities as $city)
-                            <option value="{{ $city }}" {{ (old('to', $to) == $city) ? 'selected' : '' }}>{{ $city }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                        <form action="{{ route('search.buses') }}" method="GET">
+                            <div class="row g-3">
+                                <!-- From -->
+                                <div class="col-md-4">
+                                    <label for="from" class="form-label">From</label>
+                                    <input  name="from"
+                                            id="from"
+                                            list="city-list"
+                                            class="form-control"
+                                            placeholder="Start typing departure city…"
+                                            value="{{ old('from', $from) }}"
+                                            required>
+                                </div>
 
-                <!-- Date -->
-                <div class="col-md-4">
-                    <label for="date" class="form-label">Date</label>
-                    <input type="date" name="date" id="date" class="form-control" value="{{ old('date', $date) }}" required>
-                </div>
+                                <!-- To -->
+                                <div class="col-md-4">
+                                    <label for="to" class="form-label">To</label>
+                                    <input  name="to"
+                                            id="to"
+                                            list="city-list"
+                                            class="form-control"
+                                            placeholder="Start typing destination city…"
+                                            value="{{ old('to', $to) }}"
+                                            required>
+                                </div>
+
+                                <!-- Shared datalist -->
+                                <datalist id="city-list">
+                                    @foreach($cities as $city)
+                                        <option value="{{ $city }}"></option>
+                                    @endforeach
+                                </datalist>
+
+                                <!-- Date -->
+                                <div class="col-md-4">
+                                    <label for="date" class="form-label">Date</label>
+                                    <input type="date" name="date" id="date" class="form-control" value="{{ old('date', $date) }}" required>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill shadow-sm">
+                                    <i class="bi bi-search me-2"></i>Find Buses
+                                </button>
+                            </div>
+                        </form>
+                    </div> <!-- /card -->
+                </div> <!-- /container -->
             </div>
-
-            <!-- Submit Button -->
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill shadow-sm">
-                    <i class="bi bi-search me-2"></i>Find Buses
-                </button>
-            </div>
-        </form>
-    </div>
-
-
-                </div>
+        </div>
+    </div> <!-- /search‑container -->
+</div>
 
             </div>
         </div>
@@ -216,7 +230,7 @@
                                                     {{ $bus->available_seats > 10 ? 'text-success' :
                                                       ($bus->available_seats > 5 ? 'text-warning' : 'text-danger') }}">
                                             <i class="bi bi-person-fill me-1"></i>
-                                            <span class="fw-bold">{{ $bus->available_seats }}</span> Total Seats 
+                                            <span class="fw-bold">{{ $bus->available_seats }}</span> Available Seats 
                                         </div>
                                     </div>
                                 </div>
@@ -370,6 +384,9 @@
         transform: translateY(-5px);
     }
 
+    .form-control[list] {
+    background-color:#fff; /* mimic .form-select if needed */
+}
     .form-control,
     .input-group-text {
         border-radius: 0.75rem;
@@ -887,5 +904,18 @@
             }
         }
     });
+    document.addEventListener('DOMContentLoaded', function () {
+    const filterRadios = document.querySelectorAll('.filter-radio');
+    filterRadios.forEach(radio => radio.addEventListener('change', () => {
+        document.getElementById('filterForm').submit();
+    }));
+
+    const dateInput = document.querySelector('#date');
+    if (dateInput) {
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.min = today;
+        if (!dateInput.value) dateInput.value = today;
+    }
+});
 </script>
 @endsection

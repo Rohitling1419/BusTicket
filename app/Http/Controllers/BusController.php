@@ -6,6 +6,7 @@ use App\Models\Bus;
 use App\Models\User;
 use App\Models\City;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class BusController extends Controller
 {
@@ -25,35 +26,46 @@ class BusController extends Controller
     // Store a new bus
     public function store(Request $request)
     {
+        // Combine date + time into datetime objects
+        $departureDateTime = Carbon::parse($request->departure_date . ' ' . $request->departure_time);
+        $arrivalDateTime = Carbon::parse($request->arrival_date . ' ' . $request->arrival_time);
+
+        // Merge into request so we can validate
+        $request->merge([
+            'departure_datetime' => $departureDateTime,
+            'arrival_datetime' => $arrivalDateTime,
+        ]);
+
+        // Validate fields
         $request->validate([
             'bus_name' => 'required|string|max:255',
             'from_location' => 'required|string|max:255',
             'to_location' => 'required|string|max:255',
             'departure_date' => 'required|date',
             'departure_time' => 'required|date_format:H:i',
-            'arrival_date' => 'required|date|after_or_equal:departure_date',
-            'arrival_time' => 'required|date_format:H:i|after:departure_time',
+            'arrival_date' => 'required|date',
+            'arrival_time' => 'required|date_format:H:i',
+            'departure_datetime' => 'required|date',
+            'arrival_datetime' => 'required|date|after:departure_datetime',
             'available_seats' => 'required|integer|min:1',
             'bus_type' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',  // Price validation added here
+            'price' => 'required|numeric|min:0',
         ]);
-        
-        // Create a new bus entry in the database
+
+        // Save bus to DB
         Bus::create($request->all());
-    
-        // Get the updated count of buses, users, and cities
+
+        // Dashboard counts
         $numBuses = Bus::count();
         $numUsers = User::count();
-        $numCities = City::count();  // Assuming you have a City model
-    
-        // Redirect to the dashboard with the updated counts
+        $numCities = City::count();
+
         return redirect()->route('admin.dashboard')->with([
-            'numBuses' => $numBuses, 
-            'numUsers' => $numUsers, 
+            'numBuses' => $numBuses,
+            'numUsers' => $numUsers,
             'numCities' => $numCities
         ]);
     }
-    
 
     // Show the form to edit an existing bus
     public function edit($id)
@@ -65,17 +77,27 @@ class BusController extends Controller
     // Update an existing bus
     public function update(Request $request, $id)
     {
+        $departureDateTime = Carbon::parse($request->departure_date . ' ' . $request->departure_time);
+        $arrivalDateTime = Carbon::parse($request->arrival_date . ' ' . $request->arrival_time);
+
+        $request->merge([
+            'departure_datetime' => $departureDateTime,
+            'arrival_datetime' => $arrivalDateTime,
+        ]);
+
         $request->validate([
             'bus_name' => 'required|string|max:255',
             'from_location' => 'required|string|max:255',
             'to_location' => 'required|string|max:255',
             'departure_date' => 'required|date',
             'departure_time' => 'required|date_format:H:i',
-            'arrival_date' => 'required|date|after_or_equal:departure_date',
-            'arrival_time' => 'required|date_format:H:i|after:departure_time',
+            'arrival_date' => 'required|date',
+            'arrival_time' => 'required|date_format:H:i',
+            'departure_datetime' => 'required|date',
+            'arrival_datetime' => 'required|date|after:departure_datetime',
             'available_seats' => 'required|integer|min:1',
             'bus_type' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0', 
+            'price' => 'required|numeric|min:0',
         ]);
 
         $bus = Bus::findOrFail($id);
@@ -92,5 +114,4 @@ class BusController extends Controller
 
         return redirect()->route('admin.buses.index')->with('success', 'Bus deleted successfully!');
     }
-
 }

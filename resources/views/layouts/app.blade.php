@@ -24,7 +24,7 @@
 
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <!-- <div class="min-h-screen bg-gray-100 dark:bg-gray-900"> -->
              @include('layouts.navigation')
              @include('layouts.aside')
 
@@ -43,7 +43,7 @@
             <main>
                 {{ $slot }}
             </main>
-        </div>
+        <!-- </div> -->
 
     </body>
     <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>

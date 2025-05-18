@@ -34,6 +34,7 @@ class BookingController extends Controller
     // Handle booking submission
     public function bookingsubmit(Request $request)
     {
+        // dd($request);
         // 1. Validate input
         $data = $request->validate([
             'bus_id'         => ['required', 'exists:buses,id'],
@@ -49,7 +50,7 @@ class BookingController extends Controller
         $requestedSeats = explode(',', $data['selected_seats']);
         $alreadyBooked = Booking::where('bus_id', $bus->id)
             ->where('status', 'confirmed')
-            ->pluck('seats_booked')
+            ->pluck('seat_number')
             ->flatMap(function($seatsJson) {
                 return explode(',', $seatsJson);
             })
@@ -69,17 +70,15 @@ class BookingController extends Controller
             'user_id'      => Auth::id(),
             'bus_id'       => $bus->id,
             'booking_date' => Carbon::now(),                // store current timestamp
-            'seats_booked' => $data['selected_seats'],      // store as comma-separated
-            'status'       => 'confirmed',                  // or 'pending' if you need approval/payment
+            'seat_number'  => $data['selected_seats'],     // store as comma-separated
+            'status'       => 'pending',                  // or 'pending' if you need approval/payment
         ]);
 
         // 5. Optionally decrement seat count on bus
         $bus->decrement('available_seats', count($requestedSeats));
-
+        $total_amount = $request->total_amount;
         // 6. Redirect with success
-        return redirect()
-            ->back()
-            ->with('message', 'Your seats have been booked successfully!');
+       return view('pages.khalti_payment',compact('booking','total_amount'));
     }
 
     // Cancel Booking (for users)

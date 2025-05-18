@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container py-4" style="margin-top: 3rem;">
-    <form action="{{ route('booking.submit') }}" method="POST" id="seatBookingForm">
+        <form id="booking-form" method="POST" action="{{ route('bookings.store.with.payment', $bus->id) }}">
         @csrf
         <input type="hidden" name="bus_id" value="{{ $bus->id }}">
         <div class="row g-4">
@@ -43,7 +43,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="mb-0"><i class="bi bi-grid-3x3-gap me-2"></i>Select Your Seats</h5>
                             <div class="seat-info d-flex gap-3">
-                                <div class="d-flex align-items-center mb-2">
+                                <div class="d-flex align-items-center">
                                     <div class="seat-indicator available me-2"></div>
                                     <span class="small">Available</span>
                                 </div>
@@ -52,10 +52,6 @@
                                     <span class="small">Booked</span>
                                 </div>
 
-                                <div class="d-flex align-items-center">
-                                    <div class="seat-indicator selected me-2"></div>
-                                    <span class="small">Selected</span>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -315,7 +311,7 @@
         <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0">
-                <div class="modal-header bg-primary text-white">
+                <div class="modal-header text-white" style="background-color: #964bb5;">
                     <h5 class="modal-title" id="confirmationModalLabel">Confirm Your Booking</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -335,7 +331,6 @@
     
 
 </div>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const seats = document.querySelectorAll('.seat.available');
@@ -348,11 +343,12 @@
         const boardingPointSelect = document.getElementById('boardingPoint');
         const confirmationModalSeats = document.getElementById('confirmationModalSeats');
         const confirmationModalFare = document.getElementById('confirmationModalFare');
-        const form = document.getElementById('seatBookingForm');
+        const form = document.getElementById('booking-form');
 
         let selectedSeats = [];
         const maxSeats = 10;
 
+        // Handle seat selection
         seats.forEach(seat => {
             seat.addEventListener('click', () => {
                 const number = seat.getAttribute('data-seat');
@@ -363,10 +359,7 @@
                     selectedSeats.splice(idx, 1);
                 } else if (selectedSeats.length < maxSeats) {
                     seat.classList.add('selected');
-                    selectedSeats.push({
-                        number,
-                        price
-                    });
+                    selectedSeats.push({ number, price });
                 } else {
                     alert(`You can only select up to ${maxSeats} seats.`);
                 }
@@ -400,8 +393,9 @@
             continueBtn.disabled = !(boardingPointSelect.value && selectedSeats.length);
         }
 
+        // Show confirmation modal
         continueBtn.addEventListener('click', function(e) {
-            e.preventDefault(); // Prevent immediate form submission
+            e.preventDefault();
             if (boardingPointSelect.value && selectedSeats.length) {
                 const seatsStr = selectedSeats.map(s => s.number).join(', ');
                 const sum = selectedSeats.reduce((a, s) => a + s.price, 0);
@@ -412,52 +406,13 @@
             }
         });
 
+        // Final form submit after confirmation
         document.getElementById('confirmBookingBtn').addEventListener('click', function () {
-    // Collect booking data
-    const selectedSeats = document.getElementById('selectedSeatsInput').value;
-    const totalAmount = parseFloat(document.getElementById('totalAmountInput').value) * 100; // Khalti needs paisa
-    const bookingName = "{{ $bus->bus_name }}"; // or a more suitable name
-    const userId = "{{ auth()->id() }}"; // Pass this safely
-
-    const payload = {
-        service_id: "{{ $bus->id }}", // Use booking or bus ID as reference
-        name: bookingName,
-        amount: totalAmount,
-        user: userId
-    };
-
-    const csrfToken = document.querySelector('input[name="_token"]').value;
-    const submitBtn = document.getElementById('confirmBookingBtn');
-    submitBtn.disabled = true;
-    submitBtn.innerText = "Redirecting...";
-
-    fetch("{{ route('khalti.purchase') }}", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfToken
-        },
-        body: JSON.stringify(payload)
-    })
-        .then(res => res.json())
-        .then(data => {
-            if (data.khalti_url) {
-                window.location.href = data.khalti_url;
-            } else {
-                alert("Error initiating payment. Please try again.");
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Yes, Book Now";
-            }
-        })
-        .catch(error => {
-            console.error('Payment initiation failed:', error);
-            alert("Something went wrong. Please try again later.");
-            submitBtn.disabled = false;
-            submitBtn.innerText = "Yes, Book Now";
+            form.submit();
         });
-});
     });
 </script>
+
 
 
 <style>
@@ -487,7 +442,6 @@
         top: 15px;
         right: 110px;
     }
-
     .driver-text {
         position: absolute;
         top: 20px;
@@ -550,12 +504,6 @@
         background-color: #28a745;
         color: white;
     }
-
-    .reserved {
-        background-color: yellow;
-        color: white;
-    }
-
     .booked {
         background-color: #dc3545;
         color: white;

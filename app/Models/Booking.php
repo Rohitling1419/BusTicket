@@ -13,8 +13,9 @@ class Booking extends Model
         'user_id',
         'bus_id',
         'booking_date',
-        'seats_booked',
         'status',
+        'seat_number'
+    
     ];
 
     public function user()

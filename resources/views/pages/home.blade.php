@@ -1,5 +1,6 @@
 @extends('frontend.Master')
 @section('content')
+
 <!-- Hero Section -->
 <div class="hero-section">
     <!-- Background Image -->
@@ -12,28 +13,37 @@
             <p class="hero-subtitle">Your reliable travel partner for bus bookings and charter services.</p>
         </div>
 
+        <!-- ===== Search Bar ===== -->
         <div class="search-bar">
             <form action="{{ route('search.buses') }}" method="GET">
+                {{-- Departure --}}
                 <div class="form-group">
                     <label>From</label>
-                    <select name="from" required>
-                        <option value="" disabled selected>Select departure city</option>
-                        @foreach($cities as $City)
-                        <option value="{{ $City }}">{{ $City }}</option>
-                        @endforeach
-                    </select>
+                    <input name="from"
+                           list="city-list"
+                           class="city-input"
+                           placeholder="Start typing departure city…"
+                           required>
                 </div>
 
+                {{-- Destination --}}
                 <div class="form-group">
                     <label>To</label>
-                    <select name="to" required>
-                        <option value="" disabled selected>Select destination city</option>
-                        @foreach($cities as $City)
-                        <option value="{{ $City }}">{{ $City }}</option>
-                        @endforeach
-                    </select>
+                    <input name="to"
+                           list="city-list"
+                           class="city-input"
+                           placeholder="Start typing destination city…"
+                           required>
                 </div>
 
+                {{-- Shared datalist for both fields --}}
+                <datalist id="city-list">
+                    @foreach($cities as $city)
+                        <option value="{{ $city }}"></option>
+                    @endforeach
+                </datalist>
+
+                {{-- Travel Date --}}
                 <div class="form-group">
                     <label>Date</label>
                     <input type="date" name="date" required id="date">
@@ -42,6 +52,7 @@
                 <button type="submit">Find Buses</button>
             </form>
         </div>
+        <!-- ===== /Search Bar ===== -->
     </div>
 </div>
 
@@ -59,7 +70,7 @@
                         <i class="fas fa-bus-alt fa-3x"></i>
                     </div>
                     <h4>Bus Rentals</h4>
-                    <p>Reliable and affordable charter bus rental services for your group travel needs, with experienced drivers and well-maintained vehicles.</p>
+                    <p>Reliable and affordable charter bus rental services for your group travel needs, with experienced drivers and well‑maintained vehicles.</p>
                 </div>
             </div>
 
@@ -70,7 +81,7 @@
                         <i class="fas fa-ticket-alt fa-3x"></i>
                     </div>
                     <h4>Online Ticket Booking</h4>
-                    <p>Conveniently book your tickets online from the comfort of your home with our secure and easy-to-use booking platform.</p>
+                    <p>Conveniently book your tickets online from the comfort of your home with our secure and easy‑to‑use booking platform.</p>
                 </div>
             </div>
 
@@ -122,7 +133,7 @@
                     <div class="testimonial-icon">
                         <i class="fa fa-quote-left"></i>
                     </div>
-                    <p>"The bus was clean, comfortable and arrived on time. The online booking system was straightforward and user-friendly. Thank you for a smooth journey!"</p>
+                    <p>"The bus was clean, comfortable and arrived on time. The online booking system was straightforward and user‑friendly. Thank you for a smooth journey!"</p>
                     <h5>Maria K.</h5>
                     <p>Family Traveler</p>
                 </div>
@@ -142,14 +153,15 @@
 
 <script>
     // Set minimum date for date picker to today
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('date').min = today;
-        
+
         // If no date is selected, default to today
         if (!document.getElementById('date').value) {
             document.getElementById('date').value = today;
         }
     });
 </script>
+
 @endsection

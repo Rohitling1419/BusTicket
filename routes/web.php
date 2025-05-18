@@ -65,9 +65,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // ✅ User Booking History & Cancel
     Route::get('/bookings/history', [BookingController::class, 'userBookingHistory'])->name('user.booking.history');
-    Route::post('/bookings/submit', [BookingController::class, 'bookingsubmit'])->name('booking.submit');
+    Route::post('/bookings/submit', [BookingController::class, 'bookingsubmit'])->name('bookings.store.with.payment');;
+    // Route::post('/bookings/store-with-payment/{futsal}', [BookingController::class, 'storeWithPayment']);
 // Route for canceling a booking
 Route::put('booking/cancel/{id}', [BookingController::class, 'cancel'])->name('booking.cancel');
+
+Route::post('/purchase/{booking_id}', [KhaltiPaymentController::class, 'purchase'])->name('khalti.purchase');
+Route::get('/verify-payment', [KhaltiPaymentController::class, 'verifyPayment']);
+Route::post('/khalti/verify', [BookingController::class, 'verifyKhalti'])->name('khalti.verify');
 });
 
 /*
@@ -134,11 +139,7 @@ Route::post('/admin/logout', [LoginController::class, 'logout'])->name('admin.lo
 | Laravel Breeze Auth Scaffolding
 |--------------------------------------------------------------------------
 */
-Route::post('/khalti/purchase', [KhaltiPaymentController::class, 'purchase'])->name('khalti.purchase');
-Route::get('/verify-payment', function () {
-    return view('frontend.payment.success');
-});
-Route::post('/khalti/verify', [KhaltiPaymentController::class, 'verifyPayment'])->name('khalti.verify');
+
 require __DIR__ . '/auth.php';
 
 

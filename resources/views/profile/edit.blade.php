@@ -1,6 +1,139 @@
 @extends('frontend.Master')
 @section('content')
-<style>
+
+    <div class="container" style="margin-top: 60px;">
+        <div class="profile-section">
+            <!-- Profile Information Section -->
+            <div class="profile-block">
+                <div class="section-header">
+                    <h2>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        {{ __('Profile Information') }}
+                    </h2>
+                    <p>{{ __("Update your account's profile information and email address.") }}</p>
+                </div>
+
+                <form id="send-verification" method="post" action="{{ route('verification.send') }}">
+                    @csrf
+                </form>
+
+                <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+                    @csrf
+                    @method('patch')
+
+                    <div class="form-group">
+                        <x-input-label for="name" :value="__('Name')" class="form-label" />
+                        <div class="input-wrapper">
+                            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+                        </div>
+                        <x-input-error class="mt-2 error-message" :messages="$errors->get('name')" />
+                    </div>
+
+                    <div class="form-group">
+                        <x-input-label for="email" :value="__('Email')" class="form-label" />
+                        <div class="input-wrapper">
+                            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+                        </div>
+                        <x-input-error class="mt-2 error-message" :messages="$errors->get('email')" />
+
+                        @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+                            <div class="verification-alert">
+                                <p class="verification-text">
+                                    {{ __('Your email address is unverified.') }}
+
+                                    <button form="send-verification" class="verification-link">
+                                        {{ __('Click here to re-send the verification email.') }}
+                                    </button>
+                                </p>
+
+                                @if (session('status') === 'verification-link-sent')
+                                    <p class="verification-success">
+                                        {{ __('A new verification link has been sent to your email address.') }}
+                                    </p>
+                                @endif
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="form-actions">
+                        <x-primary-button class="btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                            {{ __('Save Changes') }}
+                        </x-primary-button>
+
+                        @if (session('status') === 'profile-updated')
+                            <p
+                                x-data="{ show: true }"
+                                x-show="show"
+                                x-transition
+                                x-init="setTimeout(() => show = false, 2000)"
+                                class="success-message"
+                            >{{ __('Saved.') }}</p>
+                        @endif
+                    </div>
+                </form>
+            </div>
+
+            <!-- Change Password Section -->
+            <div class="profile-block">
+                <div class="section-header">
+                    <h2>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        {{ __('Update Password') }}
+                    </h2>
+                    <p>{{ __('Ensure your account is using a long, random password to stay secure.') }}</p>
+                </div>
+
+                <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
+                    @csrf
+                    @method('put')
+
+                    <div class="form-group password-field">
+                        <x-input-label for="update_password_current_password" :value="__('Current Password')" class="form-label" />
+                        <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />
+                        <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2 error-message" />
+                    </div>
+
+                    <div class="form-group password-field">
+                        <x-input-label for="update_password_password" :value="__('New Password')" class="form-label" />
+                        <x-text-input id="update_password_password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+                        <div class="password-strength">
+                            <div class="strength-bar">
+                                <div class="strength-progress" id="passwordStrength"></div>
+                            </div>
+                            <div class="strength-text" id="strengthText">Password strength: Too weak</div>
+                        </div>
+                        <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2 error-message" />
+                    </div>
+
+                    <div class="form-group password-field">
+                        <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" class="form-label" />
+                        <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+                        <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2 error-message" />
+                    </div>
+
+
+                    <div class="form-actions">
+                        <x-primary-button class="btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            {{ __('Update Password') }}
+                        </x-primary-button>
+
+                        @if (session('status') === 'password-updated')
+                            <p
+                                x-data="{ show: true }"
+                                x-show="show"
+                                x-transition
+                                x-init="setTimeout(() => show = false, 2000)"
+                                class="success-message"
+                            >{{ __('Password updated.') }}</p>
+                        @endif
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <style>
 /* Enhanced Profile Page Styles */
 :root {
     --primary-color: rgb(147, 7, 231);
@@ -506,139 +639,6 @@ textarea:focus {
     }
 }
 </style>
-    <div class="container" style="margin-top: 7rem;">
-        <div class="profile-section">
-            <!-- Profile Information Section -->
-            <div class="profile-block">
-                <div class="section-header">
-                    <h2>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                        {{ __('Profile Information') }}
-                    </h2>
-                    <p>{{ __("Update your account's profile information and email address.") }}</p>
-                </div>
-
-                <form id="send-verification" method="post" action="{{ route('verification.send') }}">
-                    @csrf
-                </form>
-
-                <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
-                    @csrf
-                    @method('patch')
-
-                    <div class="form-group">
-                        <x-input-label for="name" :value="__('Name')" class="form-label" />
-                        <div class="input-wrapper">
-                            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-                        </div>
-                        <x-input-error class="mt-2 error-message" :messages="$errors->get('name')" />
-                    </div>
-
-                    <div class="form-group">
-                        <x-input-label for="email" :value="__('Email')" class="form-label" />
-                        <div class="input-wrapper">
-                            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
-                        </div>
-                        <x-input-error class="mt-2 error-message" :messages="$errors->get('email')" />
-
-                        @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                            <div class="verification-alert">
-                                <p class="verification-text">
-                                    {{ __('Your email address is unverified.') }}
-
-                                    <button form="send-verification" class="verification-link">
-                                        {{ __('Click here to re-send the verification email.') }}
-                                    </button>
-                                </p>
-
-                                @if (session('status') === 'verification-link-sent')
-                                    <p class="verification-success">
-                                        {{ __('A new verification link has been sent to your email address.') }}
-                                    </p>
-                                @endif
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="form-actions">
-                        <x-primary-button class="btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-                            {{ __('Save Changes') }}
-                        </x-primary-button>
-
-                        @if (session('status') === 'profile-updated')
-                            <p
-                                x-data="{ show: true }"
-                                x-show="show"
-                                x-transition
-                                x-init="setTimeout(() => show = false, 2000)"
-                                class="success-message"
-                            >{{ __('Saved.') }}</p>
-                        @endif
-                    </div>
-                </form>
-            </div>
-
-            <!-- Change Password Section -->
-            <div class="profile-block">
-                <div class="section-header">
-                    <h2>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                        {{ __('Update Password') }}
-                    </h2>
-                    <p>{{ __('Ensure your account is using a long, random password to stay secure.') }}</p>
-                </div>
-
-                <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
-                    @csrf
-                    @method('put')
-
-                    <div class="form-group password-field">
-                        <x-input-label for="update_password_current_password" :value="__('Current Password')" class="form-label" />
-                        <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />
-                        <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2 error-message" />
-                    </div>
-
-                    <div class="form-group password-field">
-                        <x-input-label for="update_password_password" :value="__('New Password')" class="form-label" />
-                        <x-text-input id="update_password_password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
-                        <div class="password-strength">
-                            <div class="strength-bar">
-                                <div class="strength-progress" id="passwordStrength"></div>
-                            </div>
-                            <div class="strength-text" id="strengthText">Password strength: Too weak</div>
-                        </div>
-                        <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2 error-message" />
-                    </div>
-
-                    <div class="form-group password-field">
-                        <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" class="form-label" />
-                        <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" autocomplete="new-password" />
-                        <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2 error-message" />
-                    </div>
-
-
-                    <div class="form-actions">
-                        <x-primary-button class="btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                            {{ __('Update Password') }}
-                        </x-primary-button>
-
-                        @if (session('status') === 'password-updated')
-                            <p
-                                x-data="{ show: true }"
-                                x-show="show"
-                                x-transition
-                                x-init="setTimeout(() => show = false, 2000)"
-                                class="success-message"
-                            >{{ __('Password updated.') }}</p>
-                        @endif
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Password toggle functionality

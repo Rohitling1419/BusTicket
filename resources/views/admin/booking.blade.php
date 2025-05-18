@@ -116,9 +116,7 @@
                     <div class="text-muted small">
                         Showing {{ $bookings->firstItem() ?? 0 }} to {{ $bookings->lastItem() ?? 0 }} of {{ $bookings->total() }} entries
                     </div>
-                    <div>
-                        {{ $bookings->links() }}
-                    </div>
+                    
                 </div>
             </div>
         </div>
