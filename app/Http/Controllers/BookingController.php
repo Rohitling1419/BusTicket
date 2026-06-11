@@ -39,7 +39,7 @@ class BookingController extends Controller
         $data = $request->validate([
             'bus_id'         => ['required', 'exists:buses,id'],
             'boarding_point' => ['required', 'string'],
-            'selected_seats' => ['required', 'string'], // e.g. "A1,A2,A3"
+            'selected_seats' => ['required', 'string'],
             'total_amount'   => ['required', 'numeric'],
         ]);
 
@@ -51,7 +51,7 @@ class BookingController extends Controller
         $alreadyBooked = Booking::where('bus_id', $bus->id)
             ->where('status', 'confirmed')
             ->pluck('seat_number')
-            ->flatMap(function($seatsJson) {
+            ->flatMap(function ($seatsJson) {
                 return explode(',', $seatsJson);
             })
             ->toArray();
@@ -71,14 +71,14 @@ class BookingController extends Controller
             'bus_id'       => $bus->id,
             'booking_date' => Carbon::now(),                // store current timestamp
             'seat_number'  => $data['selected_seats'],     // store as comma-separated
-            'status'       => 'pending',                  // or 'pending' if you need approval/payment
+            'status'       => 'pending',
         ]);
 
         // 5. Optionally decrement seat count on bus
         $bus->decrement('available_seats', count($requestedSeats));
         $total_amount = $request->total_amount;
         // 6. Redirect with success
-       return view('pages.khalti_payment',compact('booking','total_amount'));
+        return view('pages.khalti_payment', compact('booking', 'total_amount'));
     }
 
     // Cancel Booking (for users)
@@ -114,7 +114,7 @@ class BookingController extends Controller
     public function showConfirmation($bookingId)
     {
         // Retrieve booking data by booking ID
-        $booking = Booking::with(['bus', 'seats'])->findOrFail($bookingId);  // Assumed that 'seats' is a relationship
+        $booking = Booking::with(['bus', 'seats'])->findOrFail($bookingId);
 
         // Check if the booking belongs to the authenticated user
         if ($booking->user_id !== auth()->id()) {

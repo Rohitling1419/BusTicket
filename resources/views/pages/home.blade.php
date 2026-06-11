@@ -20,26 +20,26 @@
                 <div class="form-group">
                     <label>From</label>
                     <input name="from"
-                           list="city-list"
-                           class="city-input"
-                           placeholder="Start typing departure city…"
-                           required>
+                        list="city-list"
+                        class="city-input"
+                        placeholder="Start typing departure city…"
+                        required>
                 </div>
 
                 {{-- Destination --}}
                 <div class="form-group">
                     <label>To</label>
                     <input name="to"
-                           list="city-list"
-                           class="city-input"
-                           placeholder="Start typing destination city…"
-                           required>
+                        list="city-list"
+                        class="city-input"
+                        placeholder="Start typing destination city…"
+                        required>
                 </div>
 
                 {{-- Shared datalist for both fields --}}
                 <datalist id="city-list">
                     @foreach($cities as $city)
-                        <option value="{{ $city }}"></option>
+                    <option value="{{ $city }}"></option>
                     @endforeach
                 </datalist>
 
@@ -52,7 +52,6 @@
                 <button type="submit">Find Buses</button>
             </form>
         </div>
-        <!-- ===== /Search Bar ===== -->
     </div>
 </div>
 
@@ -61,7 +60,7 @@
     <div class="container text-center">
         <h2 class="section-title">Our Services</h2>
         <p class="section-description">Explore the range of services we offer for a comfortable and safe journey.</p>
-        
+
         <div class="row">
             <!-- Service 1 -->
             <div class="col-lg-4 col-md-6 mb-4">
@@ -104,7 +103,7 @@
     <div class="container text-center">
         <h2 class="section-title">What Our Customers Say</h2>
         <p class="section-description">Here's what some of our satisfied customers have to say about their experience.</p>
-        
+
         <div class="row">
             <div class="col-lg-4 col-md-6">
                 <div class="testimonial-card">
@@ -116,7 +115,7 @@
                     <p>Frequent Traveler</p>
                 </div>
             </div>
-            
+
             <div class="col-lg-4 col-md-6">
                 <div class="testimonial-card">
                     <div class="testimonial-icon">
@@ -127,7 +126,7 @@
                     <p>Business Traveler</p>
                 </div>
             </div>
-            
+
             <div class="col-lg-4 col-md-6">
                 <div class="testimonial-card">
                     <div class="testimonial-icon">
@@ -153,7 +152,7 @@
 
 <script>
     // Set minimum date for date picker to today
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('date').min = today;
 

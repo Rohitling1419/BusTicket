@@ -46,11 +46,6 @@ Route::middleware('guest')->group(function () {
     Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('password.update');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Authenticated Users (User Dashboard, Profile, Bookings)
-|--------------------------------------------------------------------------
-*/
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
@@ -66,7 +61,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // ✅ User Booking History & Cancel
     Route::get('/bookings/history', [BookingController::class, 'userBookingHistory'])->name('user.booking.history');
     Route::post('/bookings/submit', [BookingController::class, 'bookingsubmit'])->name('bookings.store.with.payment');;
-    // Route::post('/bookings/store-with-payment/{futsal}', [BookingController::class, 'storeWithPayment']);
 // Route for canceling a booking
 Route::put('booking/cancel/{id}', [BookingController::class, 'cancel'])->name('booking.cancel');
 
@@ -75,11 +69,6 @@ Route::get('/verify-payment', [KhaltiPaymentController::class, 'verifyPayment'])
 Route::post('/khalti/verify', [BookingController::class, 'verifyKhalti'])->name('khalti.verify');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Admin Routes (Protected with Middleware)
-|--------------------------------------------------------------------------
-*/
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'Admin'])->group(function () {
     // Dashboard & Profile
@@ -124,21 +113,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'Admin'])->group(fun
 Route::get('/booking-history', [BookingController::class, 'history'])->name('bookingHistory');
 
 
-/*
-|--------------------------------------------------------------------------
-| Admin Auth Routes (Login, Logout)
-|--------------------------------------------------------------------------
-*/
 
 Route::get('/admin/login', [LoginController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [LoginController::class, 'login']);
 Route::post('/admin/logout', [LoginController::class, 'logout'])->name('admin.logout');
 
-/*
-|--------------------------------------------------------------------------
-| Laravel Breeze Auth Scaffolding
-|--------------------------------------------------------------------------
-*/
 
 require __DIR__ . '/auth.php';
 

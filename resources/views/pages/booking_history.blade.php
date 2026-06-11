@@ -351,7 +351,7 @@
         display: inline-block;
     }
 
-    .status-pending{
+    .status-pending {
         background-color: #ffebee;
         color: black;
         border-left: 3px solid yellow;

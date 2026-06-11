@@ -6,272 +6,268 @@
     <!-- Hero Section with Search -->
     <div class="search-container rounded-4 mb-4 p-4">
         <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <h2 class="text-center mb-4 text-white">Find Your Perfect Journey</h2>
-                <div class="container-fluid py-4" style="margin-top: 4rem;">
 
-                <div class="container my-5">
-                    <div class="card shadow rounded-4 p-4">
-                        <h4 class="mb-4 text-center">Search for Buses</h4>
 
-                        <form action="{{ route('search.buses') }}" method="GET">
-                            <div class="row g-3">
-                                <!-- From -->
-                                <div class="col-md-4">
-                                    <label for="from" class="form-label">From</label>
-                                    <input  name="from"
-                                            id="from"
-                                            list="city-list"
-                                            class="form-control"
-                                            placeholder="Start typing departure city…"
-                                            value="{{ old('from', $from) }}"
-                                            required>
-                                </div>
 
-                                <!-- To -->
-                                <div class="col-md-4">
-                                    <label for="to" class="form-label">To</label>
-                                    <input  name="to"
-                                            id="to"
-                                            list="city-list"
-                                            class="form-control"
-                                            placeholder="Start typing destination city…"
-                                            value="{{ old('to', $to) }}"
-                                            required>
-                                </div>
+            <div class="card shadow rounded-4 p-4">
+                <h4 class="mb-4 text-center">Search for Buses</h4>
 
-                                <!-- Shared datalist -->
-                                <datalist id="city-list">
-                                    @foreach($cities as $city)
-                                        <option value="{{ $city }}"></option>
-                                    @endforeach
-                                </datalist>
+                <form action="{{ route('search.buses') }}" method="GET">
+                    <div class="row g-3">
+                        <!-- From -->
+                        <div class="col-md-4">
+                            <label for="from" class="form-label">From</label>
+                            <input name="from"
+                                id="from"
+                                list="city-list"
+                                class="form-control"
+                                placeholder="Start typing departure city…"
+                                value="{{ old('from', $from) }}"
+                                required>
+                        </div>
 
-                                <!-- Date -->
-                                <div class="col-md-4">
-                                    <label for="date" class="form-label">Date</label>
-                                    <input type="date" name="date" id="date" class="form-control" value="{{ old('date', $date) }}" required>
-                                </div>
-                            </div>
+                        <!-- To -->
+                        <div class="col-md-4">
+                            <label for="to" class="form-label">To</label>
+                            <input name="to"
+                                id="to"
+                                list="city-list"
+                                class="form-control"
+                                placeholder="Start typing destination city…"
+                                value="{{ old('to', $to) }}"
+                                required>
+                        </div>
 
-                            <!-- Submit Button -->
-                            <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill shadow-sm">
-                                    <i class="bi bi-search me-2"></i>Find Buses
-                                </button>
-                            </div>
-                        </form>
-                    </div> <!-- /card -->
-                </div> <!-- /container -->
+                        <!-- Shared datalist -->
+                        <datalist id="city-list">
+                            @foreach($cities as $city)
+                            <option value="{{ $city }}"></option>
+                            @endforeach
+                        </datalist>
+
+                        <!-- Date -->
+                        <div class="col-md-4">
+                            <label for="date" class="form-label">Date</label>
+                            <input type="date" name="date" id="date" class="form-control" value="{{ old('date', $date) }}" required>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill shadow-sm">
+                            <i class="bi bi-search me-2"></i>Find Buses
+                        </button>
+                    </div>
+                </form>
             </div>
+
         </div>
-    </div> <!-- /search‑container -->
+    </div>
 </div>
 
+</div>
+</div>
+</div>
+
+<div class="row g-4">
+    <!-- Filter Section -->
+    <div class="col-lg-3">
+        <div class="filter-card sticky-lg-top" style="top: 20px;">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="card-header border-0">
+                    <h5 class="mb-0"><i class="bi bi-funnel-fill me-2"></i>Filter Results</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form id="filterForm" action="{{ route('search.buses') }}" method="GET">
+                        <!-- Preserve search parameters -->
+                        <input type="hidden" name="from" value="{{ request('from') }}">
+                        <input type="hidden" name="to" value="{{ request('to') }}">
+                        <input type="hidden" name="date" value="{{ request('date') }}">
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Bus Type</label>
+                            <div class="d-flex flex-wrap gap-2">
+                                <div class="form-check custom-radio">
+                                    <input class="form-check-input filter-radio" type="radio" name="bus_type" id="all" value=""
+                                        {{ request('bus_type') == '' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="all">All Types</label>
+                                </div>
+                                <div class="form-check custom-radio">
+                                    <input class="form-check-input filter-radio" type="radio" name="bus_type" id="ac" value="AC"
+                                        {{ request('bus_type') == 'AC' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="ac">AC</label>
+                                </div>
+                                <div class="form-check custom-radio">
+                                    <input class="form-check-input filter-radio" type="radio" name="bus_type" id="tourist" value="Tourist"
+                                        {{ request('bus_type') == 'Tourist' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="tourist">Tourist</label>
+                                </div>
+                                <div class="form-check custom-radio">
+                                    <input class="form-check-input filter-radio" type="radio" name="bus_type" id="nonac" value="Non AC"
+                                        {{ request('bus_type') == 'Non AC' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="nonac">Non AC</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 d-flex align-items-center justify-content-center filter-btn">
+                            <i class="bi bi-filter-square-fill me-2"></i>Apply Filters
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="row g-4">
-        <!-- Filter Section -->
-        <div class="col-lg-3">
-            <div class="filter-card sticky-lg-top" style="top: 20px;">
-                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-                    <div class="card-header border-0">
-                        <h5 class="mb-0"><i class="bi bi-funnel-fill me-2"></i>Filter Results</h5>
-                    </div>
-                    <div class="card-body p-4">
-                        <form id="filterForm" action="{{ route('search.buses') }}" method="GET">
-                            <!-- Preserve search parameters -->
-                            <input type="hidden" name="from" value="{{ request('from') }}">
-                            <input type="hidden" name="to" value="{{ request('to') }}">
-                            <input type="hidden" name="date" value="{{ request('date') }}">
-
-                            <div class="mb-4">
-                                <label class="form-label fw-bold">Bus Type</label>
-                                <div class="d-flex flex-wrap gap-2">
-                                    <div class="form-check custom-radio">
-                                        <input class="form-check-input filter-radio" type="radio" name="bus_type" id="all" value=""
-                                            {{ request('bus_type') == '' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="all">All Types</label>
-                                    </div>
-                                    <div class="form-check custom-radio">
-                                        <input class="form-check-input filter-radio" type="radio" name="bus_type" id="ac" value="AC"
-                                            {{ request('bus_type') == 'AC' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="ac">AC</label>
-                                    </div>
-                                    <div class="form-check custom-radio">
-                                        <input class="form-check-input filter-radio" type="radio" name="bus_type" id="tourist" value="Tourist"
-                                            {{ request('bus_type') == 'Tourist' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="tourist">Tourist</label>
-                                    </div>
-                                    <div class="form-check custom-radio">
-                                        <input class="form-check-input filter-radio" type="radio" name="bus_type" id="nonac" value="Non AC"
-                                            {{ request('bus_type') == 'Non AC' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="nonac">Non AC</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary w-100 d-flex align-items-center justify-content-center filter-btn">
-                                <i class="bi bi-filter-square-fill me-2"></i>Apply Filters
-                            </button>
-                        </form>
-                    </div>
-                </div>
+    <!-- Bus List Section -->
+    <div class="col-lg-9">
+        <!-- Results Summary -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0 route-title">
+                @if(request('from') && request('to'))
+                <span class="text-primary">{{ request('from') }}</span> to
+                <span class="text-primary">{{ request('to') }}</span>
+                @else
+                Available Buses
+                @endif
+            </h5>
+            <div class="text-muted small results-count">
+                {{ $buses->count() }} {{ Str::plural('result', $buses->count()) }} found
             </div>
         </div>
 
-        <!-- Bus List Section -->
-        <div class="col-lg-9">
-            <!-- Results Summary -->
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="mb-0 route-title">
-                    @if(request('from') && request('to'))
-                    <span class="text-primary">{{ request('from') }}</span> to
-                    <span class="text-primary">{{ request('to') }}</span>
-                    @else
-                    Available Buses
-                    @endif
-                </h5>
-                <div class="text-muted small results-count">
-                    {{ $buses->count() }} {{ Str::plural('result', $buses->count()) }} found
-                </div>
+        @if ($buses->isEmpty())
+        <div class="empty-state card border-0 shadow-sm rounded-4 p-4 text-center">
+            <div class="py-5">
+                <i class="bi bi-bus-front display-1 text-muted"></i>
+                <h4 class="mt-4">No buses found</h4>
+                <p class="text-muted">Try adjusting your search criteria or date</p>
+                <a href="{{ route('search.buses') }}" class="btn btn-outline-primary mt-3">
+                    <i class="bi bi-arrow-left me-2"></i>Back to Search
+                </a>
             </div>
-
-            @if ($buses->isEmpty())
-            <div class="empty-state card border-0 shadow-sm rounded-4 p-4 text-center">
-                <div class="py-5">
-                    <i class="bi bi-bus-front display-1 text-muted"></i>
-                    <h4 class="mt-4">No buses found</h4>
-                    <p class="text-muted">Try adjusting your search criteria or date</p>
-                    <a href="{{ route('search.buses') }}" class="btn btn-outline-primary mt-3">
-                        <i class="bi bi-arrow-left me-2"></i>Back to Search
-                    </a>
-                </div>
-            </div>
-            @else
-            @foreach ($buses as $bus)
-            <div class="bus-card card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
-                <div class="card-body p-0">
-                    <!-- Bus Type Badge -->
-                    <div class="position-absolute top-0 end-0 m-3">
-                        <span class="badge rounded-pill
+        </div>
+        @else
+        @foreach ($buses as $bus)
+        <div class="bus-card card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
+            <div class="card-body p-0">
+                <!-- Bus Type Badge -->
+                <div class="position-absolute top-0 end-0 m-3">
+                    <span class="badge rounded-pill
                                     {{ $bus->bus_type == 'AC' ? 'bg-info' :
                                       ($bus->bus_type == 'Tourist' ? 'bg-success' : 'bg-secondary') }}">
-                            {{ $bus->bus_type }}
-                        </span>
+                        {{ $bus->bus_type }}
+                    </span>
+                </div>
+
+                <div class="row g-0">
+                    <!-- Bus Info Section -->
+                    <div class="col-lg-8">
+                        <div class="p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bus-icon me-3">
+                                    <i class="bi bi-bus-front"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-0">{{ $bus->bus_name }}</h5>
+                                    <div class="text-muted small">
+                                        <i class="bi bi-star-fill text-warning me-1"></i>
+                                        <i class="bi bi-star-fill text-warning me-1"></i>
+                                        <i class="bi bi-star-fill text-warning me-1"></i>
+                                        <i class="bi bi-star-fill text-warning me-1"></i>
+                                        <i class="bi bi-star-half text-warning"></i>
+                                        <span class="ms-1">4.5</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="journey-timeline position-relative my-4 py-3">
+                                <div class="timeline-line"></div>
+                                <div class="row">
+                                    <div class="col-5">
+                                        <div class="timeline-point start"></div>
+                                        <div class="time-label">DEPARTURE</div>
+                                        <div class="fw-bold fs-4">{{ \Carbon\Carbon::parse($bus->departure_time)->format('h:i A') }}</div>
+                                        <div class="location">{{ $bus->from_location }}</div>
+                                    </div>
+                                    <div class="col-2 d-flex align-items-center justify-content-center">
+                                        @php
+                                        $departureTime = \Carbon\Carbon::parse($bus->departure_time);
+                                        $arrivalTime = \Carbon\Carbon::parse($bus->arrival_time);
+                                        $journeyDuration = $departureTime->diff($arrivalTime);
+                                        $journeyTime = $journeyDuration->format('%h Hours');
+                                        @endphp
+                                        <div class="duration-badge">
+                                            <i class="bi bi-clock me-1"></i>{{ $journeyTime }}
+                                        </div>
+                                    </div>
+                                    <div class="col-5 text-end">
+                                        <div class="timeline-point end"></div>
+                                        <div class="time-label">ARRIVAL</div>
+                                        <div class="fw-bold fs-4">{{ \Carbon\Carbon::parse($bus->arrival_time)->format('h:i A') }}</div>
+                                        <div class="location">{{ $bus->to_location }}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
 
-                    <div class="row g-0">
-                        <!-- Bus Info Section -->
-                        <div class="col-lg-8">
-                            <div class="p-4">
-                                <div class="d-flex align-items-center mb-3">
-                                    <div class="bus-icon me-3">
-                                        <i class="bi bi-bus-front"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="fw-bold mb-0">{{ $bus->bus_name }}</h5>
-                                        <div class="text-muted small">
-                                            <i class="bi bi-star-fill text-warning me-1"></i>
-                                            <i class="bi bi-star-fill text-warning me-1"></i>
-                                            <i class="bi bi-star-fill text-warning me-1"></i>
-                                            <i class="bi bi-star-fill text-warning me-1"></i>
-                                            <i class="bi bi-star-half text-warning"></i>
-                                            <span class="ms-1">4.5</span>
-                                        </div>
-                                    </div>
+                    <!-- Price & Booking Section -->
+                    <div class="col-lg-4">
+                        <div class="h-100 p-4 d-flex flex-column justify-content-between price-section">
+                            <div>
+                                <div class="text-center mb-3">
+                                    <div class="text-muted small">Price Per Seat</div>
+                                    <div class="price fs-3 fw-bold">NPR {{ $bus->price }}</div>
                                 </div>
 
-                                <div class="journey-timeline position-relative my-4 py-3">
-                                    <div class="timeline-line"></div>
-                                    <div class="row">
-                                        <div class="col-5">
-                                            <div class="timeline-point start"></div>
-                                            <div class="time-label">DEPARTURE</div>
-                                            <div class="fw-bold fs-4">{{ \Carbon\Carbon::parse($bus->departure_time)->format('h:i A') }}</div>
-                                            <div class="location">{{ $bus->from_location }}</div>
-                                        </div>
-                                        <div class="col-2 d-flex align-items-center justify-content-center">
-                                            @php
-                                            $departureTime = \Carbon\Carbon::parse($bus->departure_time);
-                                            $arrivalTime = \Carbon\Carbon::parse($bus->arrival_time);
-                                            $journeyDuration = $departureTime->diff($arrivalTime);
-                                            $journeyTime = $journeyDuration->format('%h Hours');
-                                            @endphp
-                                            <div class="duration-badge">
-                                                <i class="bi bi-clock me-1"></i>{{ $journeyTime }}
-                                            </div>
-                                        </div>
-                                        <div class="col-5 text-end">
-                                            <div class="timeline-point end"></div>
-                                            <div class="time-label">ARRIVAL</div>
-                                            <div class="fw-bold fs-4">{{ \Carbon\Carbon::parse($bus->arrival_time)->format('h:i A') }}</div>
-                                            <div class="location">{{ $bus->to_location }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <!-- Price & Booking Section -->
-                        <div class="col-lg-4">
-                            <div class="h-100 p-4 d-flex flex-column justify-content-between price-section">
-                                <div>
-                                    <div class="text-center mb-3">
-                                        <div class="text-muted small">Price Per Seat</div>
-                                        <div class="price fs-3 fw-bold">NPR {{ $bus->price }}</div>
-                                    </div>
-
-                                    <div class="text-center mb-3">
-                                        <div class="seat-availability
+                                <div class="text-center mb-3">
+                                    <div class="seat-availability
                                                     {{ $bus->available_seats > 10 ? 'text-success' :
                                                       ($bus->available_seats > 5 ? 'text-warning' : 'text-danger') }}">
-                                            <i class="bi bi-person-fill me-1"></i>
-                                            <span class="fw-bold">{{ $bus->available_seats }}</span> Available Seats 
-                                        </div>
+                                        <i class="bi bi-person-fill me-1"></i>
+                                        <span class="fw-bold">{{ $bus->available_seats }}</span> Available Seats
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="mt-auto">
-                                    <a href="{{ route('view.seats', $bus->id) }}" class="btn btn-lg w-100 mb-2 d-flex align-items-center justify-content-center select-seat-btn">
-                                        <i class="bi bi-grid-3x3-gap me-2"></i>Select Seats
-                                    </a>
-                                </div>
+                            <div class="mt-auto">
+                                <a href="{{ route('view.seats', $bus->id) }}" class="btn btn-lg w-100 mb-2 d-flex align-items-center justify-content-center select-seat-btn">
+                                    <i class="bi bi-grid-3x3-gap me-2"></i>Select Seats
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            @endforeach
-
-            <!-- Pagination -->
-            <nav aria-label="Page navigation" class="mt-4 d-flex justify-content-center">
-                <ul class="pagination">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <i class="bi bi-chevron-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <i class="bi bi-chevron-right"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            @endif
         </div>
+        @endforeach
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation" class="mt-4 d-flex justify-content-center">
+            <ul class="pagination">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        @endif
     </div>
+</div>
 </div>
 
 <style>
-    /* Enhanced Custom CSS for better UI */
     :root {
         --primary-color: #2c3e50;
         --primary-dark: #994bb7;
@@ -309,7 +305,6 @@
         line-height: 1.6;
     }
 
-    /* Enhanced Search Container */
     .search-container {
         background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
         padding: 2.5rem;
@@ -385,8 +380,10 @@
     }
 
     .form-control[list] {
-    background-color:#fff; /* mimic .form-select if needed */
-}
+        background-color: #fff;
+
+    }
+
     .form-control,
     .input-group-text {
         border-radius: 0.75rem;
@@ -412,7 +409,6 @@
         font-size: 0.875rem;
     }
 
-    /* Enhanced Buttons */
     .btn {
         border-radius: 0.75rem;
         font-weight: 600;
@@ -488,7 +484,7 @@
         box-shadow: 0 6px 12px rgba(14, 165, 233, 0.3);
     }
 
-    /* Enhanced Cards */
+
     .card {
         border: none;
         border-radius: 1rem;
@@ -515,7 +511,6 @@
         box-shadow: var(--shadow-lg) !important;
     }
 
-    /* Enhanced Bus Info */
     .bus-icon {
         width: 60px;
         height: 60px;
@@ -544,7 +539,6 @@
         font-weight: 500;
     }
 
-    /* Enhanced Timeline */
     .journey-timeline {
         padding: 2rem 0;
         position: relative;
@@ -619,7 +613,6 @@
         box-shadow: var(--shadow);
     }
 
-    /* Enhanced Price Section */
     .price-section {
         background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
         position: relative;
@@ -667,7 +660,6 @@
         display: inline-block;
     }
 
-    /* Enhanced Amenities */
     .amenity-badge {
         background-color: var(--gray-100);
         padding: 0.4rem 0.8rem;
@@ -689,7 +681,6 @@
         color: var(--primary-color);
     }
 
-    /* Enhanced Filter Section */
     .filter-card {
         transition: var(--transition);
     }
@@ -719,7 +710,6 @@
         color: var(--primary-color);
     }
 
-    /* Enhanced Pagination */
     .pagination {
         gap: 0.25rem;
     }
@@ -747,7 +737,6 @@
         background-color: transparent;
     }
 
-    /* Empty State */
     .empty-state {
         min-height: 350px;
         display: flex;
@@ -760,7 +749,6 @@
         margin-bottom: 1rem;
     }
 
-    /* Responsive Adjustments */
     @media (max-width: 1199px) {
         .search-container h2 {
             font-size: 2rem;
@@ -883,7 +871,6 @@
 </style>
 
 <script>
-    // Auto-submit filter form when radio buttons change
     document.addEventListener('DOMContentLoaded', function() {
         const filterRadios = document.querySelectorAll('.filter-radio');
         filterRadios.forEach(radio => {
@@ -904,18 +891,18 @@
             }
         }
     });
-    document.addEventListener('DOMContentLoaded', function () {
-    const filterRadios = document.querySelectorAll('.filter-radio');
-    filterRadios.forEach(radio => radio.addEventListener('change', () => {
-        document.getElementById('filterForm').submit();
-    }));
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterRadios = document.querySelectorAll('.filter-radio');
+        filterRadios.forEach(radio => radio.addEventListener('change', () => {
+            document.getElementById('filterForm').submit();
+        }));
 
-    const dateInput = document.querySelector('#date');
-    if (dateInput) {
-        const today = new Date().toISOString().split('T')[0];
-        dateInput.min = today;
-        if (!dateInput.value) dateInput.value = today;
-    }
-});
+        const dateInput = document.querySelector('#date');
+        if (dateInput) {
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.min = today;
+            if (!dateInput.value) dateInput.value = today;
+        }
+    });
 </script>
 @endsection

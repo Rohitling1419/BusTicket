@@ -27,8 +27,8 @@
                 <span class="link-text">Blog</span>
             </a>
         </li>
-              <!-- Booking History -->
-              <li class="nav-item">
+        <!-- Booking History -->
+        <li class="nav-item">
             <a class="nav-link" href="{{route('bookingHistory')}}">
                 <i class="bi bi-clock-history"></i>
                 <span class="link-text">Booking History</span>
@@ -42,19 +42,19 @@
 
 <!-- JavaScript for Sidebar Toggle and Active Link -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         const sidebar = document.getElementById("sidebar");
         const sidebarToggle = document.getElementById("sidebar-toggle");
         const sidebarLinks = document.querySelectorAll(".sidebar-nav .nav-link");
 
         // Toggle sidebar visibility
-        sidebarToggle.addEventListener("click", function () {
+        sidebarToggle.addEventListener("click", function() {
             sidebar.classList.toggle("collapsed");
         });
 
         // Add active class to clicked link and remove from others
         sidebarLinks.forEach(link => {
-            link.addEventListener("click", function () {
+            link.addEventListener("click", function() {
                 // Remove 'active' class from all links
                 sidebarLinks.forEach(item => item.classList.remove("active"));
                 // Add 'active' class to clicked link
@@ -66,72 +66,80 @@
 
 <style>
     /* Sidebar base styles */
-#sidebar {
-    transition: all 0.3s ease; /* Smooth transition for visibility */
-}
+    #sidebar {
+        transition: all 0.3s ease;
+        /* Smooth transition for visibility */
+    }
 
-/* Style for the links and icons */
-.sidebar-nav .nav-link {
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    color: #555;
-    font-size: 16px;
-    text-decoration: none;
-}
+    /* Style for the links and icons */
+    .sidebar-nav .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        color: #555;
+        font-size: 16px;
+        text-decoration: none;
+    }
 
-/* Icon styling */
-.sidebar-nav .nav-link i {
-    margin-right: 10px;
-    font-size: 18px;
-    transition: color 0.3s ease;
-}
+    /* Icon styling */
+    .sidebar-nav .nav-link i {
+        margin-right: 10px;
+        font-size: 18px;
+        transition: color 0.3s ease;
+    }
 
-/* Active state for the link */
-.sidebar-nav .nav-link.active {
-    background: rgb(0, 128, 0); /* Active link background color */
-    color: white; /* Text color when active */
-    border-radius: 5px;
-}
+    /* Active state for the link */
+    .sidebar-nav .nav-link.active {
+        background: rgb(0, 128, 0);
+        /* Active link background color */
+        color: white;
+        /* Text color when active */
+        border-radius: 5px;
+    }
 
-/* Active icon color */
-.sidebar-nav .nav-link.active i {
-    color: white; /* White icon color when active */
-}
+    /* Active icon color */
+    .sidebar-nav .nav-link.active i {
+        color: white;
+        /* White icon color when active */
+    }
 
-/* Hover effect for the link */
-.sidebar-nav .nav-link:hover {
-    background: rgba(0, 128, 0, 0.1); /* Light green background on hover */
-    color: rgb(0, 128, 0); /* Green text color on hover */
-}
+    /* Hover effect for the link */
+    .sidebar-nav .nav-link:hover {
+        background: rgba(0, 128, 0, 0.1);
+        /* Light green background on hover */
+        color: rgb(0, 128, 0);
+        /* Green text color on hover */
+    }
 
-/* Hover effect for the icon */
-.sidebar-nav .nav-link:hover i {
-    color: rgb(0, 128, 0); /* Green icon color on hover */
-}
+    /* Hover effect for the icon */
+    .sidebar-nav .nav-link:hover i {
+        color: rgb(0, 128, 0);
+        /* Green icon color on hover */
+    }
 
-/* Styles when the sidebar is collapsed */
-#sidebar.collapsed .sidebar-nav .nav-link .link-text {
-    display: none; /* Hide the text when the sidebar is collapsed */
-}
+    /* Styles when the sidebar is collapsed */
+    #sidebar.collapsed .sidebar-nav .nav-link .link-text {
+        display: none;
+        /* Hide the text when the sidebar is collapsed */
+    }
 
-/* Larger icon size when sidebar is collapsed */
-#sidebar.collapsed .sidebar-nav .nav-link i {
-    font-size: 22px; /* Icon size */
-}
+    /* Larger icon size when sidebar is collapsed */
+    #sidebar.collapsed .sidebar-nav .nav-link i {
+        font-size: 22px;
+        /* Icon size */
+    }
 
-/* When the sidebar is collapsed, make the icons stick to the top */
-#sidebar.collapsed {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 999;
-}
+    /* When the sidebar is collapsed, make the icons stick to the top */
+    #sidebar.collapsed {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 999;
+    }
 
-/* Transition for smooth visibility change */
-.link-text {
-    transition:  ease;
-}
-
-    </style>
+    /* Transition for smooth visibility change */
+    .link-text {
+        transition: ease;
+    }
+</style>

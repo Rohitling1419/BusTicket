@@ -16,7 +16,7 @@ class KhaltiPaymentController extends Controller
         try {
             $booking = Booking::findOrFail($bookingId);
 
-            $totalAmount = $request->total_price * 100; // Adjust the amount based on booking duration (hours)
+            $totalAmount = $request->total_price * 100;
 
             $payload = [
                 "return_url" => url('/verify-payment') . '?booking_id=' . $booking->id,
@@ -44,7 +44,6 @@ class KhaltiPaymentController extends Controller
             }
 
             return response()->json(['error' => 'Failed to initiate Khalti payment.'], 500);
-
         } catch (\Throwable $e) {
             Log::error('Khalti Error', [
                 'message' => $e->getMessage(),
@@ -66,20 +65,15 @@ class KhaltiPaymentController extends Controller
 
         DB::beginTransaction();
         try {
-            // Here you would typically verify the payment from Khalti (e.g., by calling the Khalti API)
-            // You can also check the status and payment details in the `$request` object
 
-            // For demonstration, let's assume payment verification was successful
             $paymentStatus = 'paid'; // Set as 'paid' if the payment is confirmed
 
             if ($paymentStatus === 'paid') {
-                // Mark the booking as confirmed and set its status
                 $booking->update([
                     'status' => 'confirmed',  // Confirm the booking status
                     'payment_status' => 'paid', // Payment status
                 ]);
 
-                // You can implement additional logic, such as notifying the user or sending an email
 
                 DB::commit();
                 Log::info("Booking confirmed and payment completed for booking ID: $bookingId");
@@ -98,7 +92,6 @@ class KhaltiPaymentController extends Controller
 
                 return redirect()->route('booking.index')->with('error', 'Payment failed. Please try again.');
             }
-
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Payment verification transaction failed', [
@@ -109,7 +102,4 @@ class KhaltiPaymentController extends Controller
             return redirect()->back()->with('error', 'Booking could not be completed.');
         }
     }
-
-
-
 }

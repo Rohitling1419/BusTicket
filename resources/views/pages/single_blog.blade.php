@@ -7,12 +7,12 @@
             <div class="col-lg-8">
                 <!-- Main Blog Post Card -->
                 <div class="blog-post-card card border-0 shadow overflow-hidden" style="margin-top: 2rem;">
-                    
+
                     @if ($post->image_path)
-                        <div class="featured-image-wrapper">
-                            <img src="{{ asset('storage/' . str_replace('public/', '', $post->image_path)) }}" 
-                                 class="featured-image" alt="{{ $post->title }}">
-                        </div>
+                    <div class="featured-image-wrapper">
+                        <img src="{{ asset('storage/' . str_replace('public/', '', $post->image_path)) }}"
+                            class="featured-image" alt="{{ $post->title }}">
+                    </div>
                     @endif
 
                     <div class="card-body p-4">
@@ -32,11 +32,11 @@
                         </div>
 
                         <h1 class="post-title">{{ $post->title }}</h1>
-                        
+
                         <div class="post-content">
                             {!! nl2br(e($post->content)) !!}
                         </div>
-                        
+
                         <div class="post-footer mt-4">
                             <div class="post-tags">
                                 <i class="bi bi-tags-fill"></i>
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- More Blog Posts Section -->
                 <div class="more-posts mt-4">
                     <div class="text-center">
@@ -62,7 +62,6 @@
 </div>
 
 <style>
-    /* Enhanced Blog Post Detail Styling */
     :root {
         --primary-color: #7209b7;
         --primary-light: #f3e8ff;
@@ -164,7 +163,9 @@
         color: var(--gray-600);
     }
 
-    .post-date, .post-author, .post-category {
+    .post-date,
+    .post-author,
+    .post-category {
         display: flex;
         align-items: center;
         background-color: var(--gray-100);
@@ -173,7 +174,9 @@
         transition: var(--transition);
     }
 
-    .post-date:hover, .post-author:hover, .post-category:hover {
+    .post-date:hover,
+    .post-author:hover,
+    .post-category:hover {
         background-color: var(--primary-light);
         color: var(--primary-dark);
     }
@@ -474,19 +477,19 @@
         .post-title {
             font-size: 1.6rem;
         }
-        
+
         .post-content {
             font-size: 0.95rem;
         }
-        
+
         .featured-image-wrapper {
             max-height: 350px;
         }
-        
+
         .section-title {
             font-size: 1.5rem;
         }
-        
+
         .blog-image {
             height: 160px;
         }
@@ -496,36 +499,36 @@
         .blog-detail-section {
             padding: 2rem 0;
         }
-        
+
         .post-title {
             font-size: 1.5rem;
         }
-        
+
         .post-content {
             font-size: 0.95rem;
         }
-        
+
         .featured-image-wrapper {
             max-height: 300px;
         }
-        
+
         .card-body {
             padding: 1.25rem !important;
         }
-        
+
         .post-footer {
             flex-direction: column;
             align-items: flex-start;
         }
-        
+
         .post-share {
             margin-top: 0.75rem;
         }
-        
+
         .blog-image {
             height: 180px;
         }
-        
+
         .section-subtitle {
             font-size: 0.95rem;
         }
@@ -535,36 +538,36 @@
         .blog-detail-section {
             padding: 1.5rem 0;
         }
-        
+
         .post-title {
             font-size: 1.4rem;
         }
-        
+
         .post-meta {
             gap: 0.5rem;
             margin-bottom: 0.75rem;
         }
-        
+
         .featured-image-wrapper {
             max-height: 250px;
         }
-        
+
         .post-navigation {
             padding: 0.75rem 1.25rem 0;
         }
-        
+
         .section-title {
             font-size: 1.35rem;
         }
-        
+
         .blog-title {
             font-size: 1.1rem;
         }
-        
+
         .blog-content {
             padding: 1rem;
         }
-        
+
         .view-all-btn {
             padding: 0.5rem 1.25rem;
             font-size: 0.85rem;
@@ -575,16 +578,17 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Smooth scroll to top when page loads
-        window.scrollTo({top: 0, behavior: 'smooth'});
-        
-        // Add animation to post content paragraphs
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
         const paragraphs = document.querySelectorAll('.post-content p');
         if (paragraphs.length > 0) {
             paragraphs.forEach((paragraph, index) => {
                 paragraph.style.opacity = '0';
                 paragraph.style.transform = 'translateY(15px)';
-                
-                // Add a slight delay based on the index
+
                 setTimeout(() => {
                     paragraph.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
                     paragraph.style.opacity = '1';
@@ -592,14 +596,13 @@
                 }, 80 * (index + 1));
             });
         }
-        
-        // Add animation to blog items
+
         const blogItems = document.querySelectorAll('.blog-item');
         if (blogItems.length > 0) {
             blogItems.forEach((item, index) => {
                 item.style.opacity = '0';
                 item.style.transform = 'translateY(20px)';
-                
+
                 setTimeout(() => {
                     item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
                     item.style.opacity = '1';

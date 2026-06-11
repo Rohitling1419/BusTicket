@@ -76,16 +76,13 @@
                                                 style="color: #6b7280;"></i></span>
                                         <select name="bus_type" class="form-select" required
                                             style="border-color: #e5e7eb; padding: 0.6rem 1rem; border-left: 0;">
-                                            <option value="Luxury" {{ $bus->bus_type == 'Luxury' ? 'selected' : '' }}>Luxury
+                                            <option value="AC" {{ $bus->bus_type == 'AC' ? 'selected' : '' }}>AC
                                             </option>
-                                            <option value="Standard" {{ $bus->bus_type == 'Standard' ? 'selected' : '' }}>
-                                                Standard</option>
-                                            <option value="Express" {{ $bus->bus_type == 'Express' ? 'selected' : '' }}>
-                                                Express</option>
-                                            <option value="Sleeper" {{ $bus->bus_type == 'Sleeper' ? 'selected' : '' }}>
-                                                Sleeper</option>
-                                            <option value="Mini" {{ $bus->bus_type == 'Mini' ? 'selected' : '' }}>Mini
-                                            </option>
+                                            <option value="Non AC" {{ $bus->bus_type == 'Non AC' ? 'selected' : '' }}>
+                                                Non AC</option>
+                                            <option value="Tourist" {{ $bus->bus_type == 'Tourist' ? 'selected' : '' }}>
+                                                Tourist</option>
+
                                         </select>
                                     </div>
                                     <small class="text-muted mt-2 d-block"><i class="fas fa-info-circle me-1"></i> Select

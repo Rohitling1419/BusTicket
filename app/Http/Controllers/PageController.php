@@ -7,8 +7,7 @@ use App\Models\Post;
 use App\Models\Contact;
 use App\Models\Bus;
 use App\Models\City;
-use App\Models\Booking; // Add the correct use statement for the Booking model
-// Correct the BookingController reference
+use App\Models\Booking;
 use App\Http\Controllers\BookingController;
 
 class PageController extends Controller
@@ -49,27 +48,27 @@ class PageController extends Controller
             'to' => 'nullable|string|min:2',
             'date' => 'nullable|date',
         ]);
-    
+
         $fromInput = $request->input('from');
         $toInput = $request->input('to');
         $dateInput = $request->input('date');
-    
+
         $cities = City::orderBy('name')->pluck('name');
-    
+
         // Normalize and validate locations
         $validFromLocations = Bus::pluck('from_location')->map(fn($loc) => strtolower(trim($loc)))->unique();
         $validToLocations = Bus::pluck('to_location')->map(fn($loc) => strtolower(trim($loc)))->unique();
-    
+
         $errors = [];
-    
+
         if ($fromInput && !$validFromLocations->contains(strtolower(trim($fromInput)))) {
             $errors[] = 'Invalid "From" location entered.';
         }
-    
+
         if ($toInput && !$validToLocations->contains(strtolower(trim($toInput)))) {
             $errors[] = 'Invalid "To" location entered.';
         }
-    
+
         if (!empty($errors)) {
             return view('pages.search_results', [
                 'buses' => collect(), // empty collection
@@ -80,28 +79,28 @@ class PageController extends Controller
                 'error' => implode(' ', $errors),
             ]);
         }
-    
+
         // Build query to fetch buses based on input
         $query = Bus::query();
-    
+
         if ($fromInput) {
             $query->whereRaw('LOWER(from_location) = ?', [strtolower($fromInput)]);
         }
-    
+
         if ($toInput) {
             $query->whereRaw('LOWER(to_location) = ?', [strtolower($toInput)]);
         }
-    
+
         if ($request->filled('bus_type')) {
             $query->where('bus_type', $request->bus_type);
         }
-    
+
         if ($dateInput) {
             $query->whereDate('departure_date', $dateInput);
         }
-    
+
         $buses = $query->get();
-    
+
         return view('pages.search_results', [
             'buses' => $buses,
             'from' => $fromInput,
@@ -117,31 +116,31 @@ class PageController extends Controller
     {
         // Fetch the bus with its seats
         $bus = Bus::with('seats')->findOrFail($busId);
-    
-        // Fetch all confirmed booked seat strings (e.g. "B1, B2")
+
+        // Fetch all confirmed booked seat strings
         $bookedSeats = Booking::where('bus_id', $busId)
-                              ->where('status', 'confirmed')
-                              ->pluck('seat_number');
-    
+            ->where('status', 'confirmed')
+            ->pluck('seat_number');
+
         // Split and trim each seat
         $bookedSeatsArray = [];
         foreach ($bookedSeats as $seats) {
             $trimmed = array_map('trim', explode(',', $seats));
             $bookedSeatsArray = array_merge($bookedSeatsArray, $trimmed);
         }
-    
+
         // dd($bookedSeatsArray); // optional debug
-    
+
         return view('pages.view_seats', compact('bus', 'bookedSeatsArray'));
     }
-    
+
 
     // Handle passenger details and booking summary before finalizing the booking
     public function passengerDetails(Request $request)
     {
         $request->validate([
             'bus_id' => 'required|exists:buses,id',
-            'selected_seats' => 'required|string', // comma-separated values
+            'selected_seats' => 'required|string',
             'boarding_point' => 'required|string',
             'total_amount' => 'required|numeric|min:0',
         ]);

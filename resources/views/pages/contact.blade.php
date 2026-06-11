@@ -10,7 +10,7 @@
             <div class="section-divider"></div>
             <p class="section-subtitle">We're here to help with any questions you might have</p>
         </div>
-        
+
         <!-- Contact Form Section -->
         <div class="col-lg-6 mb-4 mb-lg-0">
             <div class="contact-container">
@@ -23,14 +23,14 @@
 
                 <!-- Success Message -->
                 @if(session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
                 @endif
 
                 <form method="POST" action="{{ route('contact.submit') }}" class="contact-form">
-                    @csrf <!-- Add CSRF Token -->
+                    @csrf
                     <div class="row">
                         <!-- Name -->
                         <div class="col-md-6 mb-3">
@@ -81,7 +81,7 @@
                     </div>
                     <h3 class="faq-heading">Frequently Asked Questions</h3>
                 </div>
-                
+
                 <div class="accordion" id="faqAccordion">
                     <!-- FAQ Item 1 -->
                     <div class="accordion-item">
@@ -141,7 +141,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- FAQ Item 4 -->
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingFour">
@@ -162,7 +162,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="additional-contact mt-4">
                     <div class="row g-3">
                         <div class="col-sm-6">

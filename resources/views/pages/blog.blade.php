@@ -5,54 +5,55 @@
     <div class="container" style="margin-top: 3rem;">
 
         @if ($posts->isEmpty())
-            <div class="empty-state text-center py-5">
-                <i class="bi bi-journal-text display-1 text-muted mb-3"></i>
-                <h3>No blog posts available</h3>
-                <p class="text-muted">Check back later for new content</p>
-            </div>
+        <div class="empty-state text-center py-5">
+            <i class="bi bi-journal-text display-1 text-muted mb-3"></i>
+            <h3>No blog posts available</h3>
+            <p class="text-muted">Check back later for new content</p>
+        </div>
         @else
-            <div class="row g-4">
-                @foreach ($posts as $post)
-                    <div class="col-lg-4 col-md-6">
-                        <div class="blog-card card h-100 border-0 shadow-sm">
-                            <div class="card-img-wrapper">
-                                @if ($post->image_path)
-                                    <!-- Display image from storage -->
-                                    <img src="{{ asset('storage/' . str_replace('public/', '', $post->image_path)) }}" 
-                                         class="card-img-top" alt="{{ $post->title }}">
-                                @else
-                                    <!-- Default image -->
-                                    <img src="{{ asset('images/default.jpg') }}" 
-                                         class="card-img-top" alt="Default Image">
-                                @endif
-                                <div class="post-date">
-                                    <span class="day">{{ $post->created_at->format('d') }}</span>
-                                    <span class="month">{{ $post->created_at->format('M') }}</span>
-                                </div>
-                            </div>
-                            
-                            <div class="card-body d-flex flex-column">
-                                <div class="post-meta mb-2">
-                                    <span><i class="bi bi-person-fill me-1"></i>{{ $post->author }}</span>
-                                    <span><i class="bi bi-calendar3 me-1"></i>{{ $post->created_at->format('F d, Y') }}</span>
-                                </div>
-                                
-                                <h5 class="card-title">
-                                    <a href="{{ route('admin.posts.index', $post->id) }}" class="post-title-link">
-                                        {{ Str::limit($post->title, 50) }}
-                                    </a>
-                                </h5>
-                                
-                                <p class="card-text text-muted">{{ Str::limit($post->content, 120) }}</p>
-                                
-                                <a href="{{ route('blog.show', $post->id) }}" class="read-more-btn mt-auto">
-                                    Read More <i class="bi bi-arrow-right ms-1"></i>
-                                </a>
-                            </div>
+        <div class="row g-4">
+            @foreach ($posts as $post)
+            <div class="col-lg-4 col-md-6">
+                <div class="blog-card card h-100 border-0 shadow-sm">
+                    <div class="card-img-wrapper">
+                        @if ($post->image_path)
+                        <!-- Display image from storage -->
+                        <img src="{{ asset('storage/' . str_replace('public/', '', $post->image_path)) }}"
+                            class="card-img-top" alt="{{ $post->title }}">
+                        @else
+                        <!-- Default image -->
+                        <img src="{{ asset('images/default.jpg') }}"
+                            class="card-img-top" alt="Default Image">
+                        @endif
+                        <div class="post-date">
+                            <span class="day">{{ $post->created_at->format('d') }}</span>
+                            <span class="month">{{ $post->created_at->format('M') }}</span>
                         </div>
                     </div>
-                @endforeach
+
+                    <div class="card-body d-flex flex-column">
+                        <div class="post-meta mb-2">
+                            <span><i class="bi bi-person-fill me-1"></i>{{ $post->author }}</span>
+                            <span><i class="bi bi-calendar3 me-1"></i>{{ $post->created_at->format('F d, Y') }}</span>
+                        </div>
+
+                        <h5 class="card-title">
+                            <a href="{{ route('blog.show', $post->id) }}" class="post-title-link">
+
+                                {{ Str::limit($post->title, 50) }}
+                            </a>
+                        </h5>
+
+                        <p class="card-text text-muted">{{ Str::limit($post->content, 120) }}</p>
+
+                        <a href="{{ route('blog.show', $post->id) }}" class="read-more-btn mt-auto">
+                            Read More <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
+            @endforeach
+        </div>
         @endif
     </div>
 </div>
@@ -286,7 +287,7 @@
         .blog-title {
             font-size: 2.25rem;
         }
-        
+
         .blog-section {
             padding: 4rem 0;
         }
@@ -296,15 +297,15 @@
         .blog-title {
             font-size: 2rem;
         }
-        
+
         .blog-subtitle {
             font-size: 1rem;
         }
-        
+
         .blog-section {
             padding: 3rem 0;
         }
-        
+
         .card-img-top {
             height: 200px;
         }
@@ -314,34 +315,34 @@
         .blog-title {
             font-size: 1.75rem;
         }
-        
+
         .blog-section {
             padding: 2.5rem 0;
         }
-        
+
         .card-img-top {
             height: 180px;
         }
-        
+
         .post-date {
             top: 10px;
             right: 10px;
             min-width: 50px;
             padding: 0.4rem;
         }
-        
+
         .post-date .day {
             font-size: 1rem;
         }
-        
+
         .post-date .month {
             font-size: 0.7rem;
         }
-        
+
         .card-body {
             padding: 1.25rem;
         }
-        
+
         .card-title {
             font-size: 1.15rem;
         }
@@ -350,13 +351,10 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Add animation classes to blog cards
         const blogCards = document.querySelectorAll('.blog-card');
-        
+
         if (blogCards.length > 0) {
-            // Stagger the animation of cards
             blogCards.forEach((card, index) => {
-                // Add a slight delay based on the index
                 setTimeout(() => {
                     card.style.opacity = '1';
                     card.style.transform = 'translateY(0)';

@@ -56,7 +56,7 @@
                                     <td class="py-3">
                                         @if($post->image_path)
                                             <div class="position-relative" style="width: 80px; height: 60px; overflow: hidden; border-radius: 6px;">
-                                                <img src="{{ asset('storage/' . str_replace('public/', '', $post->image_path)) }}"
+                                                <img src="{{ asset('storage/' .$post->image_path)}}"
                                                      class="position-absolute top-50 start-50 translate-middle"
                                                      style="min-width: 100%; min-height: 100%; object-fit: cover;">
                                             </div>

@@ -47,24 +47,24 @@
         submitBtn.innerHTML = '<span class="loading-spinner"></span>Redirecting to Khalti...';
 
         fetch("{{ route('khalti.purchase',[$booking->id]) }}", {
-            method: "POST",
-            headers: {
-                'X-CSRF-TOKEN': form.querySelector('input[name="_token"]').value
-            },
-            body: formData
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.khalti_url) {
-                window.location.href = data.khalti_url;
-            } else {
-                showError("Error initiating payment. Please try again.");
-            }
-        })
-        .catch(error => {
-            console.error('Payment initiation failed:', error);
-            showError("Something went wrong. Please try again later.");
-        });
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': form.querySelector('input[name="_token"]').value
+                },
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.khalti_url) {
+                    window.location.href = data.khalti_url;
+                } else {
+                    showError("Error initiating payment. Please try again.");
+                }
+            })
+            .catch(error => {
+                console.error('Payment initiation failed:', error);
+                showError("Something went wrong. Please try again later.");
+            });
     });
 
     function showError(message) {
@@ -91,7 +91,8 @@
         justify-content: center;
         padding: 2rem 1rem;
         background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-        margin-top: 60px; /* Top space */
+        margin-top: 60px;
+        
     }
 
     .payment-card {
@@ -231,14 +232,16 @@
         width: 1.5rem;
         height: 1.5rem;
         margin-right: 0.5rem;
-        border: 3px solid rgba(255,255,255,0.3);
+        border: 3px solid rgba(255, 255, 255, 0.3);
         border-radius: 50%;
         border-top-color: #fff;
         animation: spin 1s ease-in-out infinite;
     }
 
     @keyframes spin {
-        to { transform: rotate(360deg); }
+        to {
+            transform: rotate(360deg);
+        }
     }
 </style>
 @endsection
